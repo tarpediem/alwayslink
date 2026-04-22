@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320">
+  <rect width="800" height="320" fill="#FFFFFF"/>
+  <text x="40" y="50" font-family="'Montserrat','Inter',Arial,sans-serif" font-weight="700" font-size="28" fill="#0F1D31">ALS Brand Palette</text>
+
+  <!-- Navy -->
+  <rect x="40"  y="80" width="160" height="160" fill="#0F1D31"/>
+  <text x="120" y="270" text-anchor="middle" font-family="'Montserrat','Inter',Arial,sans-serif" font-weight="700" font-size="16" fill="#0F1D31">Navy</text>
+  <text x="120" y="290" text-anchor="middle" font-family="'Inter',Arial,sans-serif" font-size="13" fill="#6B737B">#0F1D31</text>
+
+  <!-- Cyan -->
+  <rect x="220" y="80" width="160" height="160" fill="#1DA7E0"/>
+  <text x="300" y="270" text-anchor="middle" font-family="'Montserrat','Inter',Arial,sans-serif" font-weight="700" font-size="16" fill="#0F1D31">Cyan</text>
+  <text x="300" y="290" text-anchor="middle" font-family="'Inter',Arial,sans-serif" font-size="13" fill="#6B737B">#1DA7E0</text>
+
+  <!-- Grey -->
+  <rect x="400" y="80" width="160" height="160" fill="#6B737B"/>
+  <text x="480" y="270" text-anchor="middle" font-family="'Montserrat','Inter',Arial,sans-serif" font-weight="700" font-size="16" fill="#0F1D31">Grey</text>
+  <text x="480" y="290" text-anchor="middle" font-family="'Inter',Arial,sans-serif" font-size="13" fill="#6B737B">#6B737B</text>
+
+  <!-- White (with border) -->
+  <rect x="580" y="80" width="160" height="160" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="660" y="270" text-anchor="middle" font-family="'Montserrat','Inter',Arial,sans-serif" font-weight="700" font-size="16" fill="#0F1D31">White</text>
+  <text x="660" y="290" text-anchor="middle" font-family="'Inter',Arial,sans-serif" font-size="13" fill="#6B737B">#FFFFFF</text>
+</svg>

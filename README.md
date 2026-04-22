@@ -6,6 +6,7 @@ Umbrella repository for the public assets of **Always Link Solutions (ALS)** —
 
 | Path | What |
 |---|---|
+| [`design/brand/`](./design/brand/) | **ALS brand assets** — official logo variants (color, monochrome, white, black, mark-only) + color palette (navy, cyan, grey) with CSS/Tailwind snippets and WCAG notes. |
 | [`design/logos/`](./design/logos/) | **204 SVG logos** of the tools we work with, monochrome (simple-icons style). Use `fill="currentColor"` in CSS for dark/light mode. |
 | [`design/logos-color/`](./design/logos-color/) | **229 SVG logos**, same set in official brand colors — for pitch decks, slides, brochures. |
 | [`design/logos/README.md`](./design/logos/README.md) | Full inventory by category (AI, cloud, databases, devtools, frameworks, self-hosting, …), sources, and licenses. |
