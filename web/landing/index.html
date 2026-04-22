@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Always Link Solutions</title>
+<meta name="description" content="Infrastructure, AI & Automation for SME in Southeast Asia. Based in Bangkok.">
+<link rel="icon" type="image/svg+xml" href="/als-mark.svg">
+<style>
+  html,body{margin:0;padding:0;background:#0A0C10;color:#F2F3F5;font-family:'Inter','Helvetica Neue',Arial,sans-serif;min-height:100vh}
+  .wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center}
+  .loader{opacity:.6;font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+  a{color:#7EE8FA;text-decoration:none}
+  nav{position:fixed;bottom:24px;left:0;right:0;text-align:center;font-size:13px;opacity:.5}
+  nav a{margin:0 12px}
+</style>
+<script>
+  (function(){
+    var supported = ['fr','en','th'];
+    var fallback = 'en';
+    var lang = (navigator.language || navigator.userLanguage || fallback).toLowerCase().slice(0,2);
+    if (supported.indexOf(lang) === -1) lang = fallback;
+    location.replace('/' + lang + '/');
+  })();
+</script>
+</head>
+<body>
+<div class="wrap"><div class="loader">Loading…</div></div>
+<nav>
+  <a href="/en/">EN</a> · <a href="/fr/">FR</a> · <a href="/th/">TH</a>
+</nav>
+</body>
+</html>
