@@ -1,0 +1,43 @@
+# Local / private notes — per repo convention
+*.local.md
+*.local/
+.env
+.env.*
+!.env.example
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Node / JS
+node_modules/
+dist/
+build/
+.next/
+.nuxt/
+.output/
+.svelte-kit/
+.astro/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Logs
+*.log
+
+# Temp
+.tmp/
+tmp/
