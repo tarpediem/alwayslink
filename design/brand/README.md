@@ -61,7 +61,6 @@ Pour cohérence visuelle sur les supports ALS, utiliser **Montserrat** (Google F
 ## Source & vectorisation
 
 - Logo original fourni en PNG (1536×1024) le 2026-04-22.
-- Vectorisation effectuée par `potrace` (séparation par masque couleur : navy via fuzz 25% sur #0F1D31, cyan via fuzz 8% sur #1DA7E0).
-- Texte reconstitué en SVG `<text>` natif (pas un glyphe tracé) pour permettre édition et adaptation de la font.
-
-Si Olivier obtient plus tard un fichier vectoriel source (Illustrator, Figma, Canva), le swap est trivial — remplacer les 3 fichiers `als-logo.svg` / `als-mark.svg` / `als-logo-full.png` par les nouveaux exports.
+- **`als-logo-white.svg`** et **`als-logo-black.svg`** : **vectorisations officielles fournies par Claude Design** (Anthropic Labs) le 2026-04-22. Texte en vrai vectoriel (paths), proportions exactes, 23-28 paths chacun. ⚠️ La version blanche contient un petit sparkle / watermark Claude Design en bas à droite — à retirer si besoin via un éditeur SVG.
+- **`als-logo.svg`**, **`als-logo-mono.svg`** et les 3 `als-mark-*.svg` : reconstructions `potrace` avec texte SVG `<text>` natif (fallback font stack Montserrat / Inter / Helvetica Neue). Approximatives — à remplacer par les exports officiels Claude Design quand disponibles pour ces variantes.
+- Anciennes versions potrace de `white` / `black` archivées dans `_potrace-backup/` pour référence (non utilisées).
