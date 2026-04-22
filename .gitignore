@@ -5,6 +5,15 @@
 .env.*
 !.env.example
 
+# Secrets — never commit
+*.token
+*.secret
+*.key
+!*.pub.key
+credentials*
+.credentials
+secrets/
+
 # OS cruft
 .DS_Store
 Thumbs.db
