@@ -1,49 +1,374 @@
 <!DOCTYPE html>
-<html lang="th" dir="ltr">
+<html lang="th">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Always Link Solutions — โครงสร้างพื้นฐาน, AI และระบบอัตโนมัติ สำหรับ SME ในเอเชียตะวันออกเฉียงใต้</title>
-<meta name="description" content="บริษัทที่ปรึกษาด้าน IT ตั้งอยู่ที่กรุงเทพฯ ให้บริการ SME ในประเทศไทยและเอเชียตะวันออกเฉียงใต้. Proxmox, Docker, Odoo ERP, AI ที่โฮสต์เอง, ระบบอัตโนมัติด้วย n8n. โครงสร้างพื้นฐานที่ประณีตและยั่งยืน พร้อมใช้งานจริงในระบบ production." />
-<meta name="keywords" content="ที่ปรึกษา IT กรุงเทพ, DevOps ประเทศไทย, Proxmox เอเชียตะวันออกเฉียงใต้, Odoo ERP SME, AI โฮสต์เอง, ระบบอัตโนมัติ n8n, RAG LLM, การย้าย Linux, ระบบธุรกิจ เวียดนาม, BOI Cat 8.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Noto+Serif+Thai:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Sans+Thai+Looped:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:        #0A0C10;
+    --bg-2:      #0E1117;
+    --ink:       #F2F3F5;
+    --ink-mute:  #8A8F98;
+    --ink-dim:   #555A63;
+    --line:      rgba(255,255,255,0.06);
+    --line-2:    rgba(255,255,255,0.12);
+    --accent:    #7EE8FA;      /* cyan électrique, discret */
+    --accent-2:  #3A6FF8;      /* bleu profond */
+    --warm:      #E8C9A0;      /* touche chaude, sparingly */
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans Thai','Inter', 'IBM Plex Sans Thai', sans-serif;font-weight:300;line-height:1.7;-webkit-font-smoothing:antialiased}
+  body{min-height:100vh;overflow-x:hidden;position:relative}
+
+  /* ---------- Atmosphère : mesh + grain ---------- */
+  body::before{
+    content:'';
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(ellipse 70% 50% at 80% 10%, rgba(58,111,248,0.12), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 10% 90%, rgba(126,232,250,0.08), transparent 65%),
+      radial-gradient(ellipse 40% 30% at 50% 50%, rgba(232,201,160,0.03), transparent 70%);
+  }
+  body::after{
+    content:'';
+    position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0.35;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* ---------- Grille fine d'arrière-plan ---------- */
+  .grid-bg{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:80px 80px;
+    mask-image:radial-gradient(ellipse 100% 70% at 50% 40%, black 30%, transparent 90%);
+    -webkit-mask-image:radial-gradient(ellipse 100% 70% at 50% 40%, black 30%, transparent 90%);
+  }
+
+  /* ---------- Container ---------- */
+  .shell{position:relative;z-index:2;max-width:1440px;margin:0 auto;padding:32px 56px}
+  @media (max-width:768px){.shell{padding:24px 22px}}
+
+  /* ---------- NAV ---------- */
+  nav.top{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 0;border-bottom:1px solid var(--line);
+    animation:fadeIn 0.8s 0.1s both ease-out;
+  }
+  nav.top .brand-mini{display:flex;align-items:center;gap:12px}
+  nav.top .brand-mini svg{width:34px;height:auto}
+  nav.top .brand-mini .name{
+    font-family:'Instrument Serif','IBM Plex Sans Thai Looped',serif;font-weight:500;font-size:17px;letter-spacing:0.02em;
+  }
+  nav.top ul{display:flex;list-style:none;gap:38px}
+  nav.top a{
+    color:var(--ink-mute);text-decoration:none;font-size:13px;letter-spacing:0.04em;
+    transition:color .3s ease;
+  }
+  nav.top a:hover{color:var(--ink)}
+  nav.top .cta{
+    font-family:'Geist Mono', monospace;font-size:12px;color:var(--ink);
+    padding:9px 18px;border:1px solid var(--line-2);border-radius:999px;
+    transition:all .3s ease;text-decoration:none;letter-spacing:0.05em;
+  }
+  nav.top .cta:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  @media (max-width:768px){nav.top ul{display:none}}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    display:grid;grid-template-columns:1.3fr 1fr;gap:80px;align-items:center;
+    padding:90px 0 120px;position:relative;
+  }
+  @media (max-width:900px){.hero{grid-template-columns:1fr;padding:60px 0 80px;gap:48px}}
+
+  .hero .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:'Geist Mono', monospace;font-size:11px;
+    color:var(--accent);letter-spacing:0.18em;text-transform:uppercase;
+    margin-bottom:28px;
+    animation:slideUp 0.8s 0.2s both ease-out;
+  }
+  .hero .eyebrow::before{
+    content:'';width:28px;height:1px;background:var(--accent);display:inline-block;
+  }
+
+  .hero h1{
+    font-family:'Instrument Serif','IBM Plex Sans Thai Looped',serif;
+    font-weight:300;
+    font-size:clamp(38px, 5.8vw, 82px);
+    line-height:1.15;
+    letter-spacing:-0.015em;
+    color:var(--ink);
+    animation:slideUp 0.9s 0.35s both ease-out;
+  }
+  .hero h1 em{
+    font-style:italic;font-weight:300;color:var(--accent);
+    font-variation-settings:"opsz" 144;
+    font-family:'Instrument Serif','IBM Plex Sans Thai Looped',serif;
+  }
+  .hero h1 .stroke{
+    display:inline-block;position:relative;
+  }
+  .hero h1 .stroke::after{
+    content:'';position:absolute;left:-4%;right:-4%;bottom:0.08em;height:0.12em;
+    background:linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity:0.6;
+  }
+
+  .hero p.lead{
+    margin-top:34px;max-width:540px;
+    font-size:17px;color:var(--ink-mute);line-height:1.65;
+    animation:slideUp 0.9s 0.5s both ease-out;
+  }
+
+  .hero .actions{
+    margin-top:44px;display:flex;gap:16px;align-items:center;
+    animation:slideUp 0.9s 0.65s both ease-out;
+  }
+  .btn-primary{
+    background:var(--ink);color:var(--bg);padding:15px 28px;border-radius:999px;
+    font-family:'Inter', 'IBM Plex Sans Thai', sans-serif;font-weight:500;font-size:14px;letter-spacing:0.02em;
+    text-decoration:none;display:inline-flex;align-items:center;gap:10px;
+    transition:all .3s cubic-bezier(.2,.8,.2,1);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(126,232,250,0.15)}
+  .btn-primary svg{transition:transform .3s ease}
+  .btn-primary:hover svg{transform:translateX(4px)}
+  .btn-ghost{
+    color:var(--ink-mute);text-decoration:none;font-size:14px;
+    padding:15px 4px;border-bottom:1px solid var(--line-2);transition:all .3s ease;
+  }
+  .btn-ghost:hover{color:var(--ink);border-color:var(--ink)}
+
+  /* ---------- HERO LOGO STAGE ---------- */
+  .logo-stage{
+    position:relative;aspect-ratio:1/1;
+    display:flex;align-items:center;justify-content:center;
+    animation:fadeIn 1.2s 0.4s both ease-out;
+  }
+  .logo-stage .orbit{
+    position:absolute;inset:0;border:1px solid var(--line);border-radius:50%;
+    animation:spin 60s linear infinite;
+  }
+  .logo-stage .orbit.o2{inset:8%;border-color:var(--line-2);animation-duration:90s;animation-direction:reverse}
+  .logo-stage .orbit.o3{inset:18%;border-color:var(--line);animation-duration:120s}
+
+  .logo-stage .orbit::before{
+    content:'';position:absolute;top:-3px;left:50%;width:6px;height:6px;
+    background:var(--accent);border-radius:50%;transform:translateX(-50%);
+    box-shadow:0 0 16px var(--accent);
+  }
+  .logo-stage .orbit.o2::before{background:var(--accent-2);box-shadow:0 0 12px var(--accent-2);top:auto;bottom:-3px}
+  .logo-stage .orbit.o3::before{background:var(--warm);box-shadow:0 0 10px var(--warm);left:-3px;top:50%;transform:translateY(-50%)}
+
+  .logo-stage .logo-wrap{
+    position:relative;width:62%;
+    filter:drop-shadow(0 0 40px rgba(126,232,250,0.08));
+  }
+  .logo-stage .logo-wrap svg{width:100%;height:auto;display:block}
+
+  .logo-stage .corner{
+    position:absolute;font-family:'Geist Mono', monospace;font-size:10px;
+    color:var(--ink-dim);letter-spacing:0.1em;
+  }
+  .logo-stage .corner.tl{top:2%;left:2%}
+  .logo-stage .corner.tr{top:2%;right:2%;text-align:right}
+  .logo-stage .corner.bl{bottom:2%;left:2%}
+  .logo-stage .corner.br{bottom:2%;right:2%;text-align:right}
+
+  /* ---------- META BAR ---------- */
+  .meta-bar{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:48px;
+    padding:40px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    animation:fadeIn 0.9s 0.8s both ease-out;
+  }
+  .meta-bar .cell{display:flex;flex-direction:column;gap:6px}
+  .meta-bar .k{
+    font-family:'Geist Mono', monospace;font-size:10px;color:var(--ink-dim);
+    letter-spacing:0.15em;text-transform:uppercase;
+  }
+  .meta-bar .v{
+    font-family:'Instrument Serif','IBM Plex Sans Thai Looped',serif;font-size:22px;font-weight:400;letter-spacing:-0.01em;
+  }
+  .meta-bar .v span{color:var(--accent);font-style:italic}
+  @media (max-width:768px){.meta-bar{grid-template-columns:repeat(2,1fr);gap:24px}}
+
+  /* ---------- SERVICES ---------- */
+  .services{padding:110px 0 90px;position:relative}
+  .section-head{
+    display:flex;justify-content:space-between;align-items:flex-end;gap:40px;
+    margin-bottom:72px;padding-bottom:24px;border-bottom:1px solid var(--line);
+  }
+  .section-head h2{
+    font-family:'Instrument Serif','IBM Plex Sans Thai Looped',serif;font-weight:300;
+    font-size:clamp(28px,3.6vw,48px);line-height:1.25;letter-spacing:-0.015em;
+    max-width:720px;
+  }
+  .section-head h2 em{font-style:italic;color:var(--ink-mute)}
+  .section-head .num{
+    font-family:'Geist Mono', monospace;font-size:11px;
+    color:var(--ink-dim);letter-spacing:0.15em;white-space:nowrap;
+  }
+
+  .services-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    background:var(--line);border:1px solid var(--line);
+  }
+  @media (max-width:900px){.services-grid{grid-template-columns:1fr}}
+
+  .service{
+    background:var(--bg);padding:42px 36px 48px;
+    transition:background .4s ease;position:relative;overflow:hidden;
+    min-height:360px;display:flex;flex-direction:column;
+  }
+  .service:hover{background:var(--bg-2)}
+  .service::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg, transparent, var(--accent), transparent);
+    transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.2,.8,.2,1);
+  }
+  .service:hover::before{transform:scaleX(1)}
+
+  .service .idx{
+    font-family:'Geist Mono', monospace;font-size:10px;color:var(--ink-dim);
+    letter-spacing:0.15em;margin-bottom:28px;
+  }
+  .service h3{
+    font-family:'Instrument Serif','IBM Plex Sans Thai Looped',serif;font-weight:400;font-size:26px;
+    line-height:1.3;letter-spacing:-0.005em;margin-bottom:18px;
+  }
+  .service h3 em{color:var(--accent);font-style:italic}
+  .service p{color:var(--ink-mute);font-size:14.5px;line-height:1.65;margin-bottom:auto}
+  .service .tags{
+    display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;
+  }
+  .service .tag{
+    font-family:'Geist Mono', monospace;font-size:10.5px;
+    color:var(--ink-mute);padding:5px 10px;
+    border:1px solid var(--line-2);border-radius:4px;
+    letter-spacing:0.02em;
+  }
+
+  /* ---------- QUOTE / PHILOSOPHY ---------- */
+  .quote-block{
+    padding:120px 0;border-top:1px solid var(--line);
+    display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start;
+  }
+  @media (max-width:900px){.quote-block{grid-template-columns:1fr;gap:32px;padding:80px 0}}
+  .quote-block .label{
+    font-family:'Geist Mono', monospace;font-size:11px;
+    color:var(--ink-dim);letter-spacing:0.18em;text-transform:uppercase;
+    padding-top:18px;
+  }
+  .quote-block blockquote{
+    font-family:'Instrument Serif','IBM Plex Sans Thai Looped',serif;font-weight:300;
+    font-size:clamp(22px,2.8vw,36px);line-height:1.4;letter-spacing:-0.01em;
+    color:var(--ink);
+  }
+  .quote-block blockquote em{color:var(--warm);font-style:italic}
+  .quote-block .sig{
+    margin-top:36px;font-size:13px;color:var(--ink-mute);
+    display:flex;align-items:center;gap:14px;
+  }
+  .quote-block .sig::before{content:'';width:24px;height:1px;background:var(--ink-dim)}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:56px 0 40px;border-top:1px solid var(--line);
+    display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;
+  }
+  @media (max-width:900px){footer{grid-template-columns:1fr 1fr;gap:40px}}
+  @media (max-width:500px){footer{grid-template-columns:1fr}}
+  footer .brand-block svg{width:48px;height:auto;margin-bottom:20px}
+  footer .brand-block .tagline{
+    font-family:'Instrument Serif','IBM Plex Sans Thai Looped',serif;font-style:italic;font-weight:300;
+    font-size:17px;color:var(--ink-mute);max-width:360px;line-height:1.55;
+  }
+  footer h4{
+    font-family:'Geist Mono', monospace;font-size:10px;color:var(--ink-dim);
+    letter-spacing:0.15em;text-transform:uppercase;margin-bottom:18px;font-weight:500;
+  }
+  footer ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+  footer a{color:var(--ink-mute);text-decoration:none;font-size:14px;transition:color .3s}
+  footer a:hover{color:var(--ink)}
+
+  .footer-bottom{
+    max-width:1440px;margin:0 auto;padding:20px 56px;
+    display:flex;justify-content:space-between;
+    font-family:'Geist Mono', monospace;font-size:11px;
+    color:var(--ink-dim);letter-spacing:0.05em;
+    border-top:1px solid var(--line);
+  }
+  @media (max-width:768px){.footer-bottom{padding:20px 22px;flex-direction:column;gap:8px}}
+
+  /* ---------- Animations ---------- */
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes slideUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .lang-switch{display:inline-flex;align-items:center;gap:2px;border:1px solid var(--line-2);border-radius:999px;padding:3px;margin-right:14px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:0.1em}
+  .lang-switch a.lang-pill{padding:4px 10px;color:var(--ink-mute);border-radius:999px;text-decoration:none;transition:all .25s ease;text-transform:uppercase}
+  .lang-switch a.lang-pill:hover{color:var(--ink)}
+  .lang-switch a.lang-pill.active{background:var(--ink);color:var(--bg)}
+  @media (max-width:640px){.lang-switch{margin-right:8px}.lang-switch a.lang-pill{padding:3px 7px;font-size:10px}}
+
+  /* ---------- STACK GRID ---------- */
+  .stack{padding:110px 0;border-top:1px solid var(--line)}
+  .stack .stack-grid{
+    margin-top:52px;display:grid;grid-template-columns:repeat(auto-fill, minmax(120px, 1fr));
+    gap:1px;background:var(--line);border:1px solid var(--line);
+  }
+  .stack-cell{
+    background:var(--bg);padding:28px 14px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:14px;min-height:120px;
+    transition:background .25s ease;
+  }
+  .stack-cell:hover{background:var(--bg-2)}
+  .stack-cell img{width:34px;height:34px;opacity:0.85;transition:opacity .25s;filter:saturate(0.92)}
+  .stack-cell:hover img{opacity:1;filter:none}
+  .stack-cell span{font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:0.06em;color:var(--ink-mute);text-align:center}
+  @media (max-width:520px){.stack .stack-grid{grid-template-columns:repeat(3,1fr)}.stack-cell{padding:20px 6px;min-height:96px}.stack-cell img{width:26px;height:26px}}
+
+  /* selection */
+  ::selection{background:var(--accent);color:var(--bg)}
+</style>
+<title>Always Link Solutions — โครงสร้างพื้นฐาน AI และระบบอัตโนมัติสำหรับ SME ในเอเชียตะวันออกเฉียงใต้</title>
+<meta name="description" content="บริษัทที่ปรึกษาด้าน IT ตั้งอยู่ที่กรุงเทพฯ ให้บริการ SME ในประเทศไทยและเอเชียตะวันออกเฉียงใต้ Proxmox, Docker, Odoo ERP, AI โฮสต์เอง, ระบบอัตโนมัติ n8n." />
+<meta name="keywords" content="ที่ปรึกษา IT กรุงเทพ, DevOps ประเทศไทย, Proxmox เอเชียตะวันออกเฉียงใต้, Odoo ERP SME, AI โฮสต์เอง" />
 <meta name="author" content="Always Link Solutions" />
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 <meta name="theme-color" content="#0A0C10" />
 <meta name="color-scheme" content="dark" />
 
-<!-- Canonical + hreflang -->
 <link rel="canonical" href="https://alwayslinksolutions.com/th/" />
 <link rel="alternate" hreflang="en" href="https://alwayslinksolutions.com/en/" />
 <link rel="alternate" hreflang="fr" href="https://alwayslinksolutions.com/fr/" />
 <link rel="alternate" hreflang="th" href="https://alwayslinksolutions.com/th/" />
 <link rel="alternate" hreflang="x-default" href="https://alwayslinksolutions.com/en/" />
 
-<!-- Open Graph -->
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Always Link Solutions — โครงสร้างพื้นฐาน, AI และระบบอัตโนมัติ สำหรับ SME ในเอเชียตะวันออกเฉียงใต้" />
-<meta property="og:description" content="บริษัทที่ปรึกษาด้าน IT ตั้งอยู่ที่กรุงเทพฯ ให้บริการ SME ในประเทศไทยและเอเชียตะวันออกเฉียงใต้. Proxmox, Docker, Odoo ERP, AI ที่โฮสต์เอง, ระบบอัตโนมัติด้วย n8n. โครงสร้างพื้นฐานที่ประณีตและยั่งยืน พร้อมใช้งานจริงในระบบ production." />
+<meta property="og:title" content="Always Link Solutions — โครงสร้างพื้นฐาน AI และระบบอัตโนมัติสำหรับ SME ในเอเชียตะวันออกเฉียงใต้" />
+<meta property="og:description" content="บริษัทที่ปรึกษาด้าน IT ตั้งอยู่ที่กรุงเทพฯ ให้บริการ SME ในประเทศไทยและเอเชียตะวันออกเฉียงใต้ Proxmox, Docker, Odoo ERP, AI โฮสต์เอง, ระบบอัตโนมัติ n8n." />
 <meta property="og:url" content="https://alwayslinksolutions.com/th/" />
 <meta property="og:site_name" content="Always Link Solutions" />
 <meta property="og:locale" content="th_TH" />
 <meta property="og:image" content="https://alwayslinksolutions.com/og-image.png" />
-<meta property="og:image:alt" content="Always Link Solutions — IT consulting based in Bangkok" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 
-<!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Always Link Solutions — โครงสร้างพื้นฐาน, AI และระบบอัตโนมัติ สำหรับ SME ในเอเชียตะวันออกเฉียงใต้" />
-<meta name="twitter:description" content="บริษัทที่ปรึกษาด้าน IT ตั้งอยู่ที่กรุงเทพฯ ให้บริการ SME ในประเทศไทยและเอเชียตะวันออกเฉียงใต้. Proxmox, Docker, Odoo ERP, AI ที่โฮสต์เอง, ระบบอัตโนมัติด้วย n8n. โครงสร้างพื้นฐานที่ประณีตและยั่งยืน พร้อมใช้งานจริงในระบบ production." />
+<meta name="twitter:title" content="Always Link Solutions — โครงสร้างพื้นฐาน AI และระบบอัตโนมัติสำหรับ SME ในเอเชียตะวันออกเฉียงใต้" />
+<meta name="twitter:description" content="บริษัทที่ปรึกษาด้าน IT ตั้งอยู่ที่กรุงเทพฯ ให้บริการ SME ในประเทศไทยและเอเชียตะวันออกเฉียงใต้ Proxmox, Docker, Odoo ERP, AI โฮสต์เอง, ระบบอัตโนมัติ n8n." />
 <meta name="twitter:image" content="https://alwayslinksolutions.com/og-image.png" />
 
-<!-- Icons -->
 <link rel="icon" type="image/svg+xml" href="/als-mark.svg" />
-<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Noto+Serif+Thai:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Sans+Thai+Looped:wght@300;400;500;600&display=swap" rel="stylesheet" />
-
-<!-- JSON-LD -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -56,11 +381,9 @@
       "@id": "https://alwayslinksolutions.com/#organization",
       "name": "Always Link Solutions",
       "legalName": "Always Link Solutions Co., Ltd.",
-      "description": "บริษัทที่ปรึกษาด้าน IT ตั้งอยู่ที่กรุงเทพฯ ให้บริการ SME ในประเทศไทยและเอเชียตะวันออกเฉียงใต้. Proxmox, Docker, Odoo ERP, AI ที่โฮสต์เอง, ระบบอัตโนมัติด้วย n8n. โครงสร้างพื้นฐานที่ประณีตและยั่งยืน พร้อมใช้งานจริงในระบบ production.",
       "url": "https://alwayslinksolutions.com",
-      "logo": "https://alwayslinksolutions.com/als-mark.svg",
+      "logo": "https://alwayslinksolutions.com/og-image.png",
       "email": "hello@alwayslinksolutions.com",
-      "telephone": "+66 (0) xx xxx xxxx",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Bangkok",
@@ -95,7 +418,6 @@
       "knowsAbout": [
         "Proxmox",
         "Docker",
-        "Kubernetes",
         "Linux",
         "Odoo",
         "PostgreSQL",
@@ -103,7 +425,7 @@
         "Claude API",
         "LangChain",
         "n8n",
-        "RAG architecture"
+        "RAG"
       ],
       "sameAs": [
         "https://github.com/tarpediem/alwayslink"
@@ -114,368 +436,256 @@
       "@id": "https://alwayslinksolutions.com/#website",
       "url": "https://alwayslinksolutions.com",
       "name": "Always Link Solutions",
-      "description": "บริษัทที่ปรึกษาด้าน IT ตั้งอยู่ที่กรุงเทพฯ ให้บริการ SME ในประเทศไทยและเอเชียตะวันออกเฉียงใต้. Proxmox, Docker, Odoo ERP, AI ที่โฮสต์เอง, ระบบอัตโนมัติด้วย n8n. โครงสร้างพื้นฐานที่ประณีตและยั่งยืน พร้อมใช้งานจริงในระบบ production.",
       "publisher": {
         "@id": "https://alwayslinksolutions.com/#organization"
-      },
-      "inLanguage": "th"
+      }
     }
   ]
 }
 </script>
 
-<style>
-:root{
-  --bg: #0A0C10;
-  --bg-2: #0E1117;
-  --ink: #F2F3F5;
-  --ink-mute: #8A8F98;
-  --ink-dim: #555A63;
-  --line: rgba(255,255,255,0.06);
-  --line-2: rgba(255,255,255,0.12);
-  --accent: #7EE8FA;
-  --accent-2: #3A6FF8;
-  --warm: #E8C9A0;
-  --serif: 'Instrument Serif', 'Noto Serif Thai', serif;
-  --sans:  'Inter', 'IBM Plex Sans Thai', 'IBM Plex Sans Thai Looped', system-ui, sans-serif;
-  --mono:  'Geist Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
-  --container: 1280px;
-}
-*, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
-body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--sans);
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.55;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  min-height: 100vh;
-  background-image:
-    radial-gradient(1200px 600px at 80% -100px, rgba(58,111,248,0.10), transparent 60%),
-    radial-gradient(900px 500px at 10% 120%, rgba(126,232,250,0.06), transparent 60%),
-    linear-gradient(var(--bg), var(--bg));
-}
-a { color: inherit; text-decoration: none; }
-.container { max-width: var(--container); margin: 0 auto; padding: 0 32px; }
-
-/* -------- Header / nav -------- */
-header.site {
-  position: sticky; top: 0; z-index: 50;
-  padding: 18px 0;
-  backdrop-filter: blur(10px);
-  background: rgba(10,12,16,0.72);
-  border-bottom: 1px solid var(--line);
-}
-header.site .inner {
-  display: flex; align-items: center; justify-content: space-between; gap: 24px;
-}
-.brand { display: flex; align-items: center; gap: 12px; font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: -0.01em; }
-.brand svg { width: 28px; height: 28px; }
-nav.main ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 28px; font-size: 14px; }
-nav.main a { color: var(--ink-mute); transition: color .2s; }
-nav.main a:hover { color: var(--ink); }
-.header-right { display: flex; align-items: center; gap: 18px; }
-.lang-switcher { display: flex; gap: 2px; border: 1px solid var(--line-2); border-radius: 999px; padding: 4px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; }
-.lang-switcher a {
-  padding: 4px 10px; border-radius: 999px; color: var(--ink-mute); transition: all .2s; text-transform: uppercase;
-}
-.lang-switcher a.active { background: var(--ink); color: var(--bg); }
-.lang-switcher a:hover:not(.active) { color: var(--ink); }
-.btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 10px 20px;
-  border-radius: 999px;
-  border: 1px solid var(--line-2);
-  font-family: var(--mono); font-size: 13px; font-weight: 500;
-  color: var(--ink);
-  transition: all .25s;
-}
-.btn:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-.btn-primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-.btn-primary:hover { background: var(--accent); border-color: var(--accent); }
-
-/* -------- Section primitives -------- */
-section { padding: 120px 0; position: relative; }
-section.alt { background: var(--bg-2); }
-.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); }
-.eyebrow::before { content: "— "; color: var(--ink-dim); }
-h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.02em; margin: 0; }
-h1 { font-size: clamp(40px, 7vw, 96px); line-height: 1.02; }
-h2 { font-size: clamp(32px, 4.5vw, 56px); line-height: 1.08; }
-h3 { font-size: 20px; line-height: 1.3; font-family: var(--sans); font-weight: 500; letter-spacing: -0.01em; }
-p { color: var(--ink-mute); max-width: 65ch; }
-p.lede { font-size: 18px; color: var(--ink-mute); max-width: 52ch; }
-.italic { font-style: italic; color: var(--accent); }
-
-/* -------- Hero -------- */
-.hero { padding-top: 100px; padding-bottom: 160px; overflow: hidden; }
-.hero .grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 80px; align-items: center; }
-.hero h1 { margin-top: 24px; }
-.hero .lede { margin-top: 28px; }
-.hero .actions { display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap; }
-.hero .vizbox { position: relative; min-height: 440px; display: flex; align-items: center; justify-content: center; }
-.hero .mark { width: 120px; height: 120px; opacity: 0.95; }
-.hero .mark-text { margin-top: 14px; font-family: var(--serif); font-size: 20px; letter-spacing: -0.01em; text-align: center; }
-.hero .mark-sub { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; color: var(--ink-dim); margin-top: 4px; text-align: center; }
-.hero .orbit { position: absolute; border: 1px solid var(--line); border-radius: 50%; }
-.hero .orbit.o1 { width: 340px; height: 340px; }
-.hero .orbit.o2 { width: 480px; height: 480px; border-color: rgba(255,255,255,0.04); }
-.hero .orbit.o3 { width: 620px; height: 620px; border-color: rgba(255,255,255,0.02); }
-.hero .dot { position: absolute; width: 6px; height: 6px; border-radius: 50%; box-shadow: 0 0 20px currentColor; }
-.hero .dot.warm { background: var(--warm); color: var(--warm); top: 30%; left: 50%; }
-.hero .dot.cyan { background: var(--accent); color: var(--accent); top: 55%; right: 18%; }
-.hero .dot.blue { background: var(--accent-2); color: var(--accent-2); bottom: 25%; right: 30%; }
-.hero .meta-top { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--ink-dim); margin-bottom: 60px; }
-
-/* -------- Services -------- */
-.services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin-top: 60px; background: var(--line); border: 1px solid var(--line); }
-.service {
-  background: var(--bg);
-  padding: 48px 40px;
-  transition: background .3s;
-}
-.service:hover { background: var(--bg-2); }
-.service .tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--ink-dim); margin-bottom: 20px; }
-.service h3 { font-family: var(--serif); font-size: 28px; font-weight: 400; letter-spacing: -0.01em; margin-bottom: 16px; }
-
-/* -------- Stack logo grid -------- */
-.stack-grid {
-  margin-top: 60px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
-}
-.stack-item {
-  background: var(--bg-2);
-  padding: 28px 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  min-height: 120px;
-  transition: background .25s;
-}
-.stack-item:hover { background: var(--bg); }
-.stack-item img { width: 36px; height: 36px; opacity: 0.85; transition: opacity .25s; filter: saturate(0.9); }
-.stack-item:hover img { opacity: 1; filter: none; }
-.stack-item span { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--ink-mute); text-align: center; }
-
-/* -------- Approach -------- */
-.approach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 60px; }
-.approach-points { display: flex; flex-direction: column; gap: 32px; }
-.approach-point { padding-left: 20px; border-left: 1px solid var(--line-2); }
-.approach-point h4 { margin: 0 0 8px; font-family: var(--sans); font-size: 15px; font-weight: 600; color: var(--ink); }
-.approach-point p { margin: 0; font-size: 14px; }
-
-/* -------- Case -------- */
-.case {
-  margin-top: 60px;
-  padding: 56px;
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  border-radius: 4px;
-}
-.case-body { font-family: var(--serif); font-size: clamp(22px, 2.5vw, 32px); line-height: 1.3; color: var(--ink); font-style: italic; margin: 24px 0 40px; }
-.case-author { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; color: var(--ink-mute); }
-.case-author::before { content: "— "; color: var(--ink-dim); }
-
-/* -------- Contact -------- */
-.contact { text-align: center; padding: 160px 0; }
-.contact h2 { margin: 24px auto 28px; }
-.contact .lede { margin: 0 auto; text-align: center; }
-.contact .btn { margin-top: 40px; }
-
-/* -------- Footer -------- */
-footer.site { padding: 80px 0 32px; border-top: 1px solid var(--line); background: var(--bg-2); }
-footer.site .grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 60px; }
-footer.site h5 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--ink-dim); margin: 0 0 16px; text-transform: uppercase; font-weight: 500; }
-footer.site a, footer.site p { color: var(--ink-mute); font-size: 14px; line-height: 1.7; }
-footer.site a:hover { color: var(--ink); }
-footer.site ul { list-style: none; padding: 0; margin: 0; }
-footer.site .brand-col { font-family: var(--serif); font-size: 15px; font-style: italic; color: var(--ink-mute); max-width: 30ch; }
-footer.site .brand-col svg { margin-bottom: 18px; width: 32px; height: 32px; }
-footer.site .bottom { display: flex; justify-content: space-between; padding-top: 32px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--ink-dim); text-transform: uppercase; }
-
-/* -------- Responsive -------- */
-@media (max-width: 980px) {
-  section { padding: 80px 0; }
-  .hero { padding-bottom: 80px; }
-  .hero .grid, .approach-grid { grid-template-columns: 1fr; gap: 48px; }
-  .hero .vizbox { min-height: 280px; }
-  .services-grid { grid-template-columns: 1fr; }
-  footer.site .grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-  nav.main { display: none; }
-  .container { padding: 0 20px; }
-  footer.site .bottom { flex-direction: column; gap: 12px; }
-}
-@media (max-width: 520px) {
-  .stack-grid { grid-template-columns: repeat(3, 1fr); }
-  .stack-item { padding: 20px 8px; min-height: 96px; }
-  .stack-item img { width: 28px; height: 28px; }
-  footer.site .grid { grid-template-columns: 1fr; }
-  .case { padding: 32px 24px; }
-  .contact { padding: 100px 0; }
-}
-</style>
 </head>
 <body>
 
-<header class="site">
-  <div class="container inner">
-    <a href="/th/" class="brand"><svg viewBox="0 0 38 23" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-label="ALS mark"><circle cx="4" cy="17" r="4"/><circle cx="21" cy="3" r="4"/><circle cx="34" cy="19" r="4"/><path d="M6 17 L21 5 L33 19 L15 18 L14 13 L26 13" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg> Always Link Solutions</a>
-    <nav class="main"><ul>
+<div class="grid-bg"></div>
+
+<div class="shell">
+
+  <!-- =============== NAV =============== -->
+  <nav class="top">
+    <div class="brand-mini">
+      <svg viewBox="0 0 2528 1684" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path fill="#F2F3F5" d="M1303.6,772.9c47.3,13.6,94.7,27.3,142.1,40.6c6.5,1.8,10.6,4.6,14.1,10.8c15.8,28.6,49.9,40.8,80,29.2c29.6-11.4,46.9-44.3,39.9-75.6c-5.8-25.7-28.4-46.8-53.8-50c-28.5-3.6-55.3,10.6-67.6,36c-1.6,3.2-3,6.6-4.6,10.2c-2-0.4-3.6-0.6-5.1-1c-40.3-11.5-80.6-23-120.9-34.6c-52.8-15.1-105.6-30.2-158.3-45.5c-4.6-1.3-8.1-1.2-11.9,2c-6.9,5.7-14.4,10.8-21.6,16.2c-3.9,2.9-7.8,5.8-13,9.6C1183.9,738.5,1243,755.5,1303.6,772.9z M1076.9,759.8c11.7-18.7,13.6-38.5,5.7-59.9c64-47.5,127.8-95,191.1-142c-9.2-10.5-18.1-20.6-27.3-31c-62.9,46.8-126.2,93.9-189.3,140.9c-4.1-1.7-7.3-3.4-10.8-4.5c-26-8.4-49.7-4.9-69.1,15c-19.2,19.7-24.3,43.4-14.5,69.2c8.8,23,26.5,36.8,50.7,40.2C1039.1,791.3,1060.6,782.7,1076.9,759.8z M1478.3,680.6c-31.5-52.5-63-105-94.3-157.2c23.6-36,12.8-68.3-6.4-87.3c-21.3-21-54.6-24.4-80.1-8.5c-25.2,15.7-36.5,45.5-27.9,73.7c9.9,32.4,36,47.4,78.8,44.9c17.3,28.6,34.9,57.7,52.4,86.6c17.7,29.2,35.5,58.4,52.8,87.1c12.4-7.5,23.7-14.3,35.4-21.4C1485.6,692.6,1482.3,687.2,1478.3,680.6z"/>
+      </svg>
+      <span class="name">Always Link Solutions</span>
+    </div>
+    <ul>
       <li><a href="#services">บริการ</a></li>
-      <li><a href="#approach">วิธีการทำงาน</a></li>
+      <li><a href="#philosophy">แนวทาง</a></li>
       <li><a href="#work">ผลงาน</a></li>
       <li><a href="#contact">ติดต่อ</a></li>
-    </ul></nav>
-    <div class="header-right">
-      <div class="lang-switcher"><a href="/en/" hreflang="en" class="">EN</a><a href="/fr/" hreflang="fr" class="">FR</a><a href="/th/" hreflang="th" class="active">TH</a></div>
-      <a href="#contact" class="btn btn-primary">./contact</a>
+    </ul>
+    <div class="lang-switch" role="group" aria-label="Language"><a href="/en/" hreflang="en" class="lang-pill">EN</a><a href="/fr/" hreflang="fr" class="lang-pill">FR</a><a href="/th/" hreflang="th" class="lang-pill active">TH</a></div><a href="#contact" class="cta">./contact</a>
+  </nav>
+
+  <!-- =============== HERO =============== -->
+  <section class="hero">
+    <div class="hero-text">
+      <div class="eyebrow">ที่ปรึกษาไอที — เอเชียตะวันออกเฉียงใต้</div>
+      <h1>
+        โครงสร้างพื้นฐาน <em>AI</em><br>
+        และระบบอัตโนมัติ<br>
+        สำหรับ SME ที่<span class="stroke">เชื่อมต่อ</span>
+      </h1>
+      <p class="lead">
+        จากกรุงเทพฯ เราออกแบบและดูแลสแตกเทคนิคที่เรียบง่ายและมั่นคง: Proxmox, Docker, Linux, Odoo, ไปป์ไลน์ RAG และ LLM ที่โฮสต์เอง, เวิร์กโฟลว์ n8n ระบบที่ทำงานได้จริงในโปรดักชัน — ไม่ใช่แค่บนสไลด์
+      </p>
+      <div class="actions">
+        <a href="#contact" class="btn-primary">
+          เริ่มต้นโปรเจกต์
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#services" class="btn-ghost">ดูบริการทั้งหมด</a>
+      </div>
+    </div>
+
+    <!-- Logo stage -->
+    <div class="logo-stage" aria-hidden="true">
+      <div class="orbit"></div>
+      <div class="orbit o2"></div>
+      <div class="orbit o3"></div>
+
+      <span class="corner tl">[01] BRAND</span>
+      <span class="corner tr">v2026.04</span>
+      <span class="corner bl">BKK</span>
+      <span class="corner br">alwayslinksolutions.com</span>
+
+      <div class="logo-wrap">
+        <!-- Logo complet Always Link Solutions, all white, transparent background -->
+        <svg viewBox="0 0 2528 1684" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Always Link Solutions">
+          <path fill="#FFFFFF" d="M1303.6,772.9c47.3,13.6,94.7,27.3,142.1,40.6c6.5,1.8,10.6,4.6,14.1,10.8c15.8,28.6,49.9,40.8,80,29.2c29.6-11.4,46.9-44.3,39.9-75.6c-5.8-25.7-28.4-46.8-53.8-50c-28.5-3.6-55.3,10.6-67.6,36c-1.6,3.2-3,6.6-4.6,10.2c-2-0.4-3.6-0.6-5.1-1c-40.3-11.5-80.6-23-120.9-34.6c-52.8-15.1-105.6-30.2-158.3-45.5c-4.6-1.3-8.1-1.2-11.9,2c-6.9,5.7-14.4,10.8-21.6,16.2c-3.9,2.9-7.8,5.8-13,9.6C1183.9,738.5,1243,755.5,1303.6,772.9z"/>
+          <path fill="#FFFFFF" d="M1076.9,759.8c11.7-18.7,13.6-38.5,5.7-59.9c64-47.5,127.8-95,191.1-142c-9.2-10.5-18.1-20.6-27.3-31c-62.9,46.8-126.2,93.9-189.3,140.9c-4.1-1.7-7.3-3.4-10.8-4.5c-26-8.4-49.7-4.9-69.1,15c-19.2,19.7-24.3,43.4-14.5,69.2c8.8,23,26.5,36.8,50.7,40.2C1039.1,791.3,1060.6,782.7,1076.9,759.8z"/>
+          <path fill="#FFFFFF" d="M1478.3,680.6c-31.5-52.5-63-105-94.3-157.2c23.6-36,12.8-68.3-6.4-87.3c-21.3-21-54.6-24.4-80.1-8.5c-25.2,15.7-36.5,45.5-27.9,73.7c9.9,32.4,36,47.4,78.8,44.9c17.3,28.6,34.9,57.7,52.4,86.6c17.7,29.2,35.5,58.4,52.8,87.1c12.4-7.5,23.7-14.3,35.4-21.4C1485.6,692.6,1482.3,687.2,1478.3,680.6z"/>
+          <!-- Texte ALWAYS LINK + SOLUTIONS -->
+          <g fill="#FFFFFF">
+            <text x="1264" y="1120" font-family="Inter, Helvetica, Arial, sans-serif" font-size="178" font-weight="500" letter-spacing="18" text-anchor="middle">ALWAYS LINK</text>
+            <text x="1264" y="1240" font-family="Geist Mono, Menlo, monospace" font-size="78" font-weight="400" letter-spacing="30" text-anchor="middle">SOLUTIONS</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============== META BAR =============== -->
+  <div class="meta-bar">
+    <div class="cell">
+      <span class="k">ก่อตั้ง</span>
+      <span class="v">2026 <span>—</span> กรุงเทพฯ</span>
+    </div>
+    <div class="cell">
+      <span class="k">พื้นที่ให้บริการ</span>
+      <span class="v">เอเชีย<span>—</span>ตะวันออกเฉียงใต้</span>
+    </div>
+    <div class="cell">
+      <span class="k">สแตก</span>
+      <span class="v">โอเพนซอร์ส <span>·</span> โฮสต์เอง</span>
+    </div>
+    <div class="cell">
+      <span class="k">กลุ่มลูกค้า</span>
+      <span class="v">SME <span>&amp;</span> Ops</span>
     </div>
   </div>
-</header>
 
-<main>
-
-<section class="hero">
-  <div class="container">
-    <div class="meta-top">
-      <span>[01] BRAND</span>
-      <span>v2026.04</span>
+  <!-- =============== SERVICES =============== -->
+  <section class="services" id="services">
+    <div class="section-head">
+      <h2>สามสาขาวิชา<br><em>ภายใต้ตรรกะวิศวกรรมเดียวกัน</em></h2>
+      <span class="num">[02] — บริการ</span>
     </div>
-    <div class="grid">
-      <div>
-        <span class="eyebrow">IT Consulting · เอเชียตะวันออกเฉียงใต้</span>
-        <h1>โครงสร้างพื้นฐาน, <span class="italic">AI</span> และระบบอัตโนมัติสำหรับ SME ที่เชื่อมโยงกัน</h1>
-        <p class="lede">จากกรุงเทพฯ เราออกแบบและดำเนินงานสแตกเทคนิคที่ประณีตและยั่งยืน — Proxmox, Docker, Linux, Odoo, ไปป์ไลน์ RAG และ LLM ที่โฮสต์เอง, เวิร์กโฟลว์ n8n ระบบที่ทำงานได้จริงในโปรดักชัน ไม่ใช่แค่ในสไลด์</p>
-        <div class="actions">
-          <a href="#contact" class="btn btn-primary">ติดต่อเรา</a>
-          <a href="#approach" class="btn">วิธีการทำงานของเรา</a>
+
+    <div class="services-grid">
+      <article class="service">
+        <span class="idx">01 / Infra</span>
+        <h3>โครงสร้างพื้นฐาน <em>&amp;</em> DevOps</h3>
+        <p>เวอร์ชวลไลเซชัน Proxmox, คอนเทนเนอร์ Docker, เครือข่ายและสตอเรจ Linux เราออกแบบแพลตฟอร์มที่โฮสต์เองได้อย่างเสถียร มีการมอนิเตอร์ และทีมงานของคุณสามารถซ่อมบำรุงเองได้ — ไม่ต้องพึ่งเราตลอดเวลา</p>
+        <div class="tags">
+          <span class="tag">Proxmox</span>
+          <span class="tag">Docker</span>
+          <span class="tag">LXC</span>
+          <span class="tag">Linux</span>
+          <span class="tag">Nginx</span>
         </div>
-      </div>
-      <div class="vizbox">
-        <div class="orbit o3"></div>
-        <div class="orbit o2"></div>
-        <div class="orbit o1"></div>
-        <div class="dot warm"></div>
-        <div class="dot cyan"></div>
-        <div class="dot blue"></div>
-        <div style="text-align:center; position: relative; z-index: 2;">
-          <div class="mark" style="color: var(--ink);"><svg viewBox="0 0 38 23" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-label="ALS mark"><circle cx="4" cy="17" r="4"/><circle cx="21" cy="3" r="4"/><circle cx="34" cy="19" r="4"/><path d="M6 17 L21 5 L33 19 L15 18 L14 13 L26 13" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="mark-text">ALWAYS LINK SOLUTIONS</div>
-          <div class="mark-sub">SOLUTIONS</div>
+      </article>
+
+      <article class="service">
+        <span class="idx">02 / AI</span>
+        <h3>AI <em>&amp;</em> ระบบอัตโนมัติ</h3>
+        <p>ไปป์ไลน์ RAG ที่โฮสต์เอง, การใช้งาน LLM ภายในองค์กร, เวิร์กโฟลว์ n8n ที่ออกแบบรอบข้อมูลของคุณ คุณค่าไม่ได้อยู่ที่ตัวโมเดล — แต่อยู่ที่การผสานรวมต่างหาก</p>
+        <div class="tags">
+          <span class="tag">RAG</span>
+          <span class="tag">LLM</span>
+          <span class="tag">n8n</span>
+          <span class="tag">Ollama</span>
+          <span class="tag">pgvector</span>
         </div>
-      </div>
+      </article>
+
+      <article class="service">
+        <span class="idx">03 / Biz</span>
+        <h3>ระบบ<em>ธุรกิจ</em></h3>
+        <p>ERP Odoo, การย้ายเครื่องไคลเอนต์ไปสู่ Linux, เครื่องมือทำงานร่วมกันแบบโอเพนซอร์ส สแตกธุรกิจที่ครอบคลุมวงจรการทำงานทั้งหมดโดยไม่ต้องจ่ายค่าไลเซนส์ไม่สิ้นสุด</p>
+        <div class="tags">
+          <span class="tag">Odoo</span>
+          <span class="tag">OnlyOffice</span>
+          <span class="tag">Mailcow</span>
+          <span class="tag">Ubuntu</span>
+          <span class="tag">RustDesk</span>
+        </div>
+      </article>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="services" class="alt">
-  <div class="container">
-    <span class="eyebrow">บริการ</span>
-    <h2 style="max-width: 16ch; margin-top: 12px;">สี่สาขา หนึ่งวิธีการทำงาน</h2>
-    <div class="services-grid"><article class="service">
-          <div class="tag">01</div>
-          <h3>โครงสร้างพื้นฐานและการดำเนินงาน</h3>
-          <p>คลัสเตอร์ Proxmox, LXC / Docker, การย้ายระบบ Linux, การสำรองข้อมูลแบบ 3-2-1 ด้วย ZFS + Proxmox Backup Server + Acronis ความยั่งยืนมาก่อนการปรับแต่ง</p>
-        </article><article class="service">
-          <div class="tag">02</div>
-          <h3>AI, RAG และไปป์ไลน์ LLM</h3>
-          <p>Ollama แบบโฮสต์เอง หรือไฮบริดกับ Claude/OpenAI ค้นหาข้อมูลภายในองค์กรของคุณด้วย PostgreSQL + pgvector, ChromaDB, กราฟ Neo4j ข้อมูลไม่ออกจากระบบโดยที่คุณไม่อนุญาต</p>
-        </article><article class="service">
-          <div class="tag">03</div>
-          <h3>ERP และระบบธุรกิจ</h3>
-          <p>การติดตั้ง Odoo Enterprise, การย้ายระบบ (รวมบัญชี, อัปเกรดเวอร์ชัน), การเชื่อมต่อกับ MobiPOS, Mailcow, Nextcloud, OnlyOffice ERP จริงๆ ไม่ใช่สเปรดชีตบวกความหวัง</p>
-        </article><article class="service">
-          <div class="tag">04</div>
-          <h3>ระบบอัตโนมัติและเวิร์กโฟลว์</h3>
-          <p>n8n, MCP servers, สคริปต์ Python เราทำให้งานซ้ำซากเป็นอัตโนมัติ เพื่อให้ทีมของคุณมุ่งเน้นที่การตัดสินใจ — การออกใบแจ้งหนี้, รายงาน, ประมวลผลเอกสาร, การซิงค์ข้ามระบบ</p>
-        </article></div>
-  </div>
-</section>
-
-<section id="stack">
-  <div class="container">
-    <span class="eyebrow">สแตก</span>
-    <h2 style="margin-top: 12px;">เครื่องมือที่เราใช้สร้างงาน</h2>
-    <p class="lede" style="margin-top: 20px;">ชุดเครื่องมือที่คัดสรรมาแล้วและเราใช้งานจริงมาหลายปี — โอเพนซอร์สในจุดสำคัญ ซอฟต์แวร์เชิงพาณิชย์เมื่อช่วยประหยัดเวลา และลูกค้าเป็นเจ้าของทุกอย่างเสมอ</p>
-    <div class="stack-grid"><div class="stack-item"><img src="/assets/logos/proxmox.svg" alt="Proxmox" loading="lazy" /><span>Proxmox</span></div><div class="stack-item"><img src="/assets/logos/docker.svg" alt="Docker" loading="lazy" /><span>Docker</span></div><div class="stack-item"><img src="/assets/logos/kubernetes.svg" alt="Kubernetes" loading="lazy" /><span>Kubernetes</span></div><div class="stack-item"><img src="/assets/logos/linux.svg" alt="Linux" loading="lazy" /><span>Linux</span></div><div class="stack-item"><img src="/assets/logos/ubuntu.svg" alt="Ubuntu" loading="lazy" /><span>Ubuntu</span></div><div class="stack-item"><img src="/assets/logos/python.svg" alt="Python" loading="lazy" /><span>Python</span></div><div class="stack-item"><img src="/assets/logos/fastapi.svg" alt="FastAPI" loading="lazy" /><span>FastAPI</span></div><div class="stack-item"><img src="/assets/logos/typescript.svg" alt="TypeScript" loading="lazy" /><span>TypeScript</span></div><div class="stack-item"><img src="/assets/logos/node.svg" alt="Node.js" loading="lazy" /><span>Node.js</span></div><div class="stack-item"><img src="/assets/logos/bun.svg" alt="Bun" loading="lazy" /><span>Bun</span></div><div class="stack-item"><img src="/assets/logos/rust.svg" alt="Rust" loading="lazy" /><span>Rust</span></div><div class="stack-item"><img src="/assets/logos/go.svg" alt="Go" loading="lazy" /><span>Go</span></div><div class="stack-item"><img src="/assets/logos/postgresql.svg" alt="PostgreSQL" loading="lazy" /><span>PostgreSQL</span></div><div class="stack-item"><img src="/assets/logos/redis.svg" alt="Redis" loading="lazy" /><span>Redis</span></div><div class="stack-item"><img src="/assets/logos/neo4j.svg" alt="Neo4j" loading="lazy" /><span>Neo4j</span></div><div class="stack-item"><img src="/assets/logos/chromadb.svg" alt="ChromaDB" loading="lazy" /><span>ChromaDB</span></div><div class="stack-item"><img src="/assets/logos/ollama.svg" alt="Ollama" loading="lazy" /><span>Ollama</span></div><div class="stack-item"><img src="/assets/logos/claude-ai.svg" alt="Claude" loading="lazy" /><span>Claude</span></div><div class="stack-item"><img src="/assets/logos/openai.svg" alt="OpenAI" loading="lazy" /><span>OpenAI</span></div><div class="stack-item"><img src="/assets/logos/huggingface.svg" alt="HuggingFace" loading="lazy" /><span>HuggingFace</span></div><div class="stack-item"><img src="/assets/logos/langchain.svg" alt="LangChain" loading="lazy" /><span>LangChain</span></div><div class="stack-item"><img src="/assets/logos/n8n.svg" alt="n8n" loading="lazy" /><span>n8n</span></div><div class="stack-item"><img src="/assets/logos/odoo.svg" alt="Odoo" loading="lazy" /><span>Odoo</span></div><div class="stack-item"><img src="/assets/logos/mailcow.svg" alt="Mailcow" loading="lazy" /><span>Mailcow</span></div><div class="stack-item"><img src="/assets/logos/nextcloud.svg" alt="Nextcloud" loading="lazy" /><span>Nextcloud</span></div><div class="stack-item"><img src="/assets/logos/onlyoffice.svg" alt="OnlyOffice" loading="lazy" /><span>OnlyOffice</span></div><div class="stack-item"><img src="/assets/logos/cloudflare.svg" alt="Cloudflare" loading="lazy" /><span>Cloudflare</span></div><div class="stack-item"><img src="/assets/logos/nginx.svg" alt="Nginx" loading="lazy" /><span>Nginx</span></div><div class="stack-item"><img src="/assets/logos/tailscale.svg" alt="Tailscale" loading="lazy" /><span>Tailscale</span></div><div class="stack-item"><img src="/assets/logos/opnsense.svg" alt="OPNsense" loading="lazy" /><span>OPNsense</span></div><div class="stack-item"><img src="/assets/logos/github.svg" alt="GitHub" loading="lazy" /><span>GitHub</span></div><div class="stack-item"><img src="/assets/logos/obsidian.svg" alt="Obsidian" loading="lazy" /><span>Obsidian</span></div><div class="stack-item"><img src="/assets/logos/home-assistant.svg" alt="Home Assistant" loading="lazy" /><span>Home Assistant</span></div><div class="stack-item"><img src="/assets/logos/jellyfin.svg" alt="Jellyfin" loading="lazy" /><span>Jellyfin</span></div><div class="stack-item"><img src="/assets/logos/terraform.svg" alt="Terraform" loading="lazy" /><span>Terraform</span></div><div class="stack-item"><img src="/assets/logos/ansible.svg" alt="Ansible" loading="lazy" /><span>Ansible</span></div></div>
-  </div>
-</section>
-
-<section id="approach" class="alt">
-  <div class="container">
-    <span class="eyebrow">วิธีการทำงาน</span>
-    <div class="approach-grid">
-      <div>
-        <h2 style="margin-top: 12px;">โครงสร้างพื้นฐานที่อดทน ระบบอัตโนมัติที่ซื่อสัตย์</h2>
-        <p class="lede" style="margin-top: 20px;">เราไม่ขายแดชบอร์ด เราสร้างระบบที่ยังทำงานได้ในเช้าวันอาทิตย์ ที่พนักงานใหม่เข้าใจได้ในหนึ่งสัปดาห์ และที่คุณสามารถรับกลับไปให้ทีมของคุณได้ทุกเมื่อ</p>
-      </div>
-      <div class="approach-points"><div class="approach-point"><h4>ไม่มี vendor lock-in โดยดีฟอลต์</h4><p>ใช้โอเพนซอร์สเท่าที่ทำได้ คุณเป็นเจ้าของโค้ด ข้อมูล และสิทธิ์ผู้ดูแลระบบ</p></div><div class="approach-point"><h4>เข้าใจประเทศไทยและ SEA</h4><p>เรารู้เรื่อง BOI, API ธนาคารไทย, ช่องว่างระหว่างเครื่องมือสากลกับความเป็นจริงในพื้นที่</p></div><div class="approach-point"><h4>ทีมเล็ก ติดต่อตรง</h4><p>คุณคุยกับวิศวกรที่ทำงานจริง ไม่มี Account Manager ไม่มีโครงสร้างการส่งต่อ</p></div><div class="approach-point"><h4>โปรดักชันก่อน สไลด์ทีหลัง</h4><p>เราส่งมอบเข้าโปรดักชันภายในไม่กี่สัปดาห์ ไม่ใช่หลายไตรมาส เอกสารเป็นภาษาอังกฤษหรือฝรั่งเศส</p></div></div>
+  <!-- =============== QUOTE =============== -->
+  <section class="quote-block" id="philosophy">
+    <span class="label">[03] — ปรัชญา</span>
+    <div>
+      <blockquote>
+        โครงสร้างพื้นฐานที่ดีจะมองไม่เห็น <em>มันแค่ทำงาน</em> ไม่แจ้งเตือนคุณคืนวันศุกร์ ไม่เรียกร้องความสนใจเช้าวันจันทร์ งานทั้งหมดของเราสร้างขึ้นรอบความเงียบเชิงวิศวกรรมนี้
+      </blockquote>
+      <div class="sig">Olivier Magnier · ผู้ก่อตั้ง</div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="work">
-  <div class="container">
-    <span class="eyebrow">ผลงาน</span>
-    <div class="case">
-      <div class="eyebrow" style="color: var(--ink-dim);">[Jewelry · Bangkok]</div>
-      <h3 style="font-family: var(--serif); font-size: clamp(26px,3vw,36px); margin-top: 16px;">สาม Odoo รวมเป็นหนึ่ง</h3>
-      <p class="case-body">ผู้ผลิตเครื่องประดับในกรุงเทพฯ ใช้ Odoo แยกกันสามระบบ — หนึ่งต่อหนึ่งโรงงาน — ไม่มีคลังสินค้าร่วม ไม่มีบัญชีรวม และรายงานรายเดือนทำบน Excel เรารวมทุกอย่างเข้าเป็น Odoo Enterprise เดียว ย้ายข้อมูลสามปี และเชื่อมต่อ POS + Mailcow + Nextcloud ปิดงบเดือนจาก 9 วัน เหลือ 2 วัน</p>
-      <div class="case-author">Olivier Magnier · ผู้ก่อตั้ง</div>
+  <!-- =============== STACK =============== -->
+  <section class="stack" id="stack">
+    <div class="section-head">
+      <h2>เครื่องมือที่เราใช้สร้างงาน</h2>
+      <span class="num">[04] — สแตก</span>
     </div>
-  </div>
-</section>
-
-<section id="contact" class="contact alt">
-  <div class="container">
-    <span class="eyebrow">ติดต่อ</span>
-    <h2>บอกเราเรื่องระบบที่ใช้งานอยู่จริง</h2>
-    <p class="lede">อีเมลสั้นๆ บริบทที่ชัดเจน ระยะเวลาที่สมเหตุสมผล เราตอบภายในหนึ่งวันทำการ</p>
-    <a href="mailto:hello@alwayslinksolutions.com" class="btn btn-primary">ส่งอีเมลหาเรา → hello@alwayslinksolutions.com</a>
-  </div>
-</section>
-
-</main>
-
-<footer class="site">
-  <div class="container">
-    <div class="grid">
-      <div class="brand-col">
-        <svg viewBox="0 0 38 23" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-label="ALS mark"><circle cx="4" cy="17" r="4"/><circle cx="21" cy="3" r="4"/><circle cx="34" cy="19" r="4"/><path d="M6 17 L21 5 L33 19 L15 18 L14 13 L26 13" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <p>โครงสร้างพื้นฐานที่อดทน ระบบอัตโนมัติที่ซื่อสัตย์ สำหรับ SME ที่เติบโตในเอเชียตะวันออกเฉียงใต้</p>
-      </div>
-      <div>
-        <h5>ติดต่อ</h5>
-        <ul>
-          <li><a href="mailto:hello@alwayslinksolutions.com">hello@alwayslinksolutions.com</a></li>
-          <li>+66 (0) xx xxx xxxx</li>
-          <li>Bangkok</li>
-        </ul>
-      </div>
-      <div>
-        <h5>บริการ</h5>
-        <ul><li>โครงสร้างพื้นฐาน</li><li>AI & RAG</li><li>ERP & Odoo</li><li>ย้ายระบบ Linux</li></ul>
-      </div>
-      <div>
-        <h5>ทรัพยากร</h5>
-        <ul><li><a href="#">บล็อก</a></li><li><a href="https://github.com/tarpediem/alwayslink">Open Source</a></li><li><a href="#">ผลงาน</a></li></ul>
-      </div>
+    <div class="stack-grid">
+        <div class="stack-cell"><img src="/assets/logos/proxmox.svg" alt="Proxmox" loading="lazy" /><span>Proxmox</span></div>
+        <div class="stack-cell"><img src="/assets/logos/docker.svg" alt="Docker" loading="lazy" /><span>Docker</span></div>
+        <div class="stack-cell"><img src="/assets/logos/kubernetes.svg" alt="Kubernetes" loading="lazy" /><span>Kubernetes</span></div>
+        <div class="stack-cell"><img src="/assets/logos/linux.svg" alt="Linux" loading="lazy" /><span>Linux</span></div>
+        <div class="stack-cell"><img src="/assets/logos/ubuntu.svg" alt="Ubuntu" loading="lazy" /><span>Ubuntu</span></div>
+        <div class="stack-cell"><img src="/assets/logos/python.svg" alt="Python" loading="lazy" /><span>Python</span></div>
+        <div class="stack-cell"><img src="/assets/logos/fastapi.svg" alt="FastAPI" loading="lazy" /><span>FastAPI</span></div>
+        <div class="stack-cell"><img src="/assets/logos/typescript.svg" alt="TypeScript" loading="lazy" /><span>TypeScript</span></div>
+        <div class="stack-cell"><img src="/assets/logos/node.svg" alt="Node.js" loading="lazy" /><span>Node.js</span></div>
+        <div class="stack-cell"><img src="/assets/logos/bun.svg" alt="Bun" loading="lazy" /><span>Bun</span></div>
+        <div class="stack-cell"><img src="/assets/logos/rust.svg" alt="Rust" loading="lazy" /><span>Rust</span></div>
+        <div class="stack-cell"><img src="/assets/logos/go.svg" alt="Go" loading="lazy" /><span>Go</span></div>
+        <div class="stack-cell"><img src="/assets/logos/postgresql.svg" alt="PostgreSQL" loading="lazy" /><span>PostgreSQL</span></div>
+        <div class="stack-cell"><img src="/assets/logos/redis.svg" alt="Redis" loading="lazy" /><span>Redis</span></div>
+        <div class="stack-cell"><img src="/assets/logos/neo4j.svg" alt="Neo4j" loading="lazy" /><span>Neo4j</span></div>
+        <div class="stack-cell"><img src="/assets/logos/chromadb.svg" alt="ChromaDB" loading="lazy" /><span>ChromaDB</span></div>
+        <div class="stack-cell"><img src="/assets/logos/ollama.svg" alt="Ollama" loading="lazy" /><span>Ollama</span></div>
+        <div class="stack-cell"><img src="/assets/logos/claude-ai.svg" alt="Claude" loading="lazy" /><span>Claude</span></div>
+        <div class="stack-cell"><img src="/assets/logos/openai.svg" alt="OpenAI" loading="lazy" /><span>OpenAI</span></div>
+        <div class="stack-cell"><img src="/assets/logos/huggingface.svg" alt="HuggingFace" loading="lazy" /><span>HuggingFace</span></div>
+        <div class="stack-cell"><img src="/assets/logos/langchain.svg" alt="LangChain" loading="lazy" /><span>LangChain</span></div>
+        <div class="stack-cell"><img src="/assets/logos/n8n.svg" alt="n8n" loading="lazy" /><span>n8n</span></div>
+        <div class="stack-cell"><img src="/assets/logos/odoo.svg" alt="Odoo" loading="lazy" /><span>Odoo</span></div>
+        <div class="stack-cell"><img src="/assets/logos/mailcow.svg" alt="Mailcow" loading="lazy" /><span>Mailcow</span></div>
+        <div class="stack-cell"><img src="/assets/logos/nextcloud.svg" alt="Nextcloud" loading="lazy" /><span>Nextcloud</span></div>
+        <div class="stack-cell"><img src="/assets/logos/onlyoffice.svg" alt="OnlyOffice" loading="lazy" /><span>OnlyOffice</span></div>
+        <div class="stack-cell"><img src="/assets/logos/cloudflare.svg" alt="Cloudflare" loading="lazy" /><span>Cloudflare</span></div>
+        <div class="stack-cell"><img src="/assets/logos/nginx.svg" alt="Nginx" loading="lazy" /><span>Nginx</span></div>
+        <div class="stack-cell"><img src="/assets/logos/tailscale.svg" alt="Tailscale" loading="lazy" /><span>Tailscale</span></div>
+        <div class="stack-cell"><img src="/assets/logos/opnsense.svg" alt="OPNsense" loading="lazy" /><span>OPNsense</span></div>
+        <div class="stack-cell"><img src="/assets/logos/github.svg" alt="GitHub" loading="lazy" /><span>GitHub</span></div>
+        <div class="stack-cell"><img src="/assets/logos/obsidian.svg" alt="Obsidian" loading="lazy" /><span>Obsidian</span></div>
+        <div class="stack-cell"><img src="/assets/logos/home-assistant.svg" alt="Home Assistant" loading="lazy" /><span>Home Assistant</span></div>
+        <div class="stack-cell"><img src="/assets/logos/jellyfin.svg" alt="Jellyfin" loading="lazy" /><span>Jellyfin</span></div>
+        <div class="stack-cell"><img src="/assets/logos/terraform.svg" alt="Terraform" loading="lazy" /><span>Terraform</span></div>
+        <div class="stack-cell"><img src="/assets/logos/ansible.svg" alt="Ansible" loading="lazy" /><span>Ansible</span></div>
     </div>
-    <div class="bottom">
-      <span>© 2026 ALWAYS LINK SOLUTIONS CO., LTD.</span>
-      <span>CRAFTED IN BKK — 13.7563°N, 100.5018°E</span>
+  </section>
+
+  <!-- =============== FOOTER =============== -->
+  <footer id="contact">
+    <div class="brand-block">
+      <svg viewBox="0 0 2528 900" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path fill="#F2F3F5" d="M1303.6,772.9c47.3,13.6,94.7,27.3,142.1,40.6c6.5,1.8,10.6,4.6,14.1,10.8c15.8,28.6,49.9,40.8,80,29.2c29.6-11.4,46.9-44.3,39.9-75.6c-5.8-25.7-28.4-46.8-53.8-50c-28.5-3.6-55.3,10.6-67.6,36c-1.6,3.2-3,6.6-4.6,10.2c-2-0.4-3.6-0.6-5.1-1c-40.3-11.5-80.6-23-120.9-34.6c-52.8-15.1-105.6-30.2-158.3-45.5c-4.6-1.3-8.1-1.2-11.9,2c-6.9,5.7-14.4,10.8-21.6,16.2c-3.9,2.9-7.8,5.8-13,9.6C1183.9,738.5,1243,755.5,1303.6,772.9z M1076.9,759.8c11.7-18.7,13.6-38.5,5.7-59.9c64-47.5,127.8-95,191.1-142c-9.2-10.5-18.1-20.6-27.3-31c-62.9,46.8-126.2,93.9-189.3,140.9c-4.1-1.7-7.3-3.4-10.8-4.5c-26-8.4-49.7-4.9-69.1,15c-19.2,19.7-24.3,43.4-14.5,69.2c8.8,23,26.5,36.8,50.7,40.2C1039.1,791.3,1060.6,782.7,1076.9,759.8z M1478.3,680.6c-31.5-52.5-63-105-94.3-157.2c23.6-36,12.8-68.3-6.4-87.3c-21.3-21-54.6-24.4-80.1-8.5c-25.2,15.7-36.5,45.5-27.9,73.7c9.9,32.4,36,47.4,78.8,44.9c17.3,28.6,34.9,57.7,52.4,86.6c17.7,29.2,35.5,58.4,52.8,87.1c12.4-7.5,23.7-14.3,35.4-21.4C1485.6,692.6,1482.3,687.2,1478.3,680.6z"/>
+      </svg>
+      <div class="tagline">โครงสร้างพื้นฐานที่อดทน ระบบอัตโนมัติที่จริงใจ สำหรับ SME ที่กำลังเติบโตในเอเชียตะวันออกเฉียงใต้</div>
     </div>
-  </div>
-</footer>
+
+    <div>
+      <h4>ติดต่อ</h4>
+      <ul>
+        <li><a href="mailto:hello@alwayslinksolutions.com">hello@alwayslinksolutions.com</a></li>
+        <li><a href="#">+66 (0) xx xxx xxxx</a></li>
+        <li><a href="#">กรุงเทพฯ</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4>บริการ</h4>
+      <ul>
+        <li><a href="#">โครงสร้างพื้นฐาน</a></li>
+        <li><a href="#">AI &amp; RAG</a></li>
+        <li><a href="#">ERP &amp; Odoo</a></li>
+        <li><a href="#">ย้ายสู่ Linux</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4>แหล่งข้อมูล</h4>
+      <ul>
+        <li><a href="#">บล็อก</a></li>
+        <li><a href="#">โอเพนซอร์ส</a></li>
+        <li><a href="#">เคสสตัดดี้</a></li>
+      </ul>
+    </div>
+  </footer>
+
+</div>
+
+<div class="footer-bottom">
+  <span>© 2026 ALWAYS LINK SOLUTIONS CO., LTD.</span>
+  <span>CRAFTED IN BKK — 13.7563°N, 100.5018°E</span>
+</div>
 
 </body>
 </html>
