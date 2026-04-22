@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://alwayslinksolutions.com/en/</loc>
+    <lastmod>2026-04-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://alwayslinksolutions.com/en/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://alwayslinksolutions.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://alwayslinksolutions.com/th/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alwayslinksolutions.com/en/" />
+  </url>
+  <url>
+    <loc>https://alwayslinksolutions.com/fr/</loc>
+    <lastmod>2026-04-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://alwayslinksolutions.com/en/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://alwayslinksolutions.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://alwayslinksolutions.com/th/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alwayslinksolutions.com/en/" />
+  </url>
+  <url>
+    <loc>https://alwayslinksolutions.com/th/</loc>
+    <lastmod>2026-04-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://alwayslinksolutions.com/en/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://alwayslinksolutions.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://alwayslinksolutions.com/th/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alwayslinksolutions.com/en/" />
+  </url>
+</urlset>

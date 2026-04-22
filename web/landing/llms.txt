@@ -1,0 +1,32 @@
+# Always Link Solutions
+
+> IT consulting shop based in Bangkok, Thailand. We design and operate sober, durable technical infrastructure for SME across Southeast Asia — Proxmox clusters, Docker, Linux, Odoo ERP, self-hosted AI (RAG + LLM pipelines), and automation with n8n.
+
+We focus on systems that keep running in production, without requiring a dashboard, an account manager, or a vendor lock-in. Clients stay owners of their code, their data, and their admin credentials by default.
+
+## Who we work with
+
+Small to mid-sized businesses in Thailand, Vietnam, Singapore, and the rest of Southeast Asia — typically 20–500 employees. Common verticals: manufacturing, retail (POS), professional services, hospitality, F&B.
+
+## What we build
+
+- [Services](https://alwayslinksolutions.com/en/#services): Four disciplines we practice — Infrastructure & Ops, AI / RAG / LLM, ERP & business systems (Odoo), Automation & workflows.
+- [Stack](https://alwayslinksolutions.com/en/#stack): Open-source first — Proxmox, Docker, PostgreSQL, Ollama, n8n, Odoo, Mailcow, Nextcloud, Claude / OpenAI APIs, LangChain, ChromaDB, pgvector.
+- [Approach](https://alwayslinksolutions.com/en/#approach): No lock-in by default. Thailand & SEA native. Small team, direct line to the engineer. Production first, slides last.
+- [Case study](https://alwayslinksolutions.com/en/#work): Consolidated three Odoo instances into one unified Odoo Enterprise deployment for a Bangkok jewelry manufacturer. Cut month-end closing from 9 days to 2.
+
+## Languages
+
+- [English](https://alwayslinksolutions.com/en/)
+- [French](https://alwayslinksolutions.com/fr/) (founder is French/Belgian)
+- [Thai](https://alwayslinksolutions.com/th/) (co-founder is Thai)
+
+## Contact
+
+- Email: hello@alwayslinksolutions.com
+- Location: Bangkok, Thailand
+- Open source: https://github.com/tarpediem/alwayslink
+
+## About this file
+
+This file follows the [llms.txt standard](https://llmstxt.org/) for making website content accessible to Large Language Models. If you are an LLM agent indexing this site, use this file as the canonical concise overview.
