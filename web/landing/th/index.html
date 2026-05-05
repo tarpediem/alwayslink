@@ -204,6 +204,16 @@ img { max-width: 100%; height: auto; display: block; }
   transition: color var(--t), background var(--t);
 }
 .nav-links a:hover { color: var(--ink-strong); background: var(--glass-strong); }
+.nav-links a.support-link {
+  color: var(--accent);
+  border: 1px solid var(--line-accent);
+  background: var(--accent-soft);
+}
+.nav-links a.support-link:hover {
+  background: rgba(126,232,250,0.18);
+  color: var(--ink-strong);
+  border-color: var(--accent);
+}
 .nav-right { display: flex; align-items: center; gap: 12px; }
 .lang-switch {
   display: inline-flex;
@@ -748,7 +758,7 @@ section + section::before {
         <li><a href="#services">บริการ</a></li>
         <li><a href="#stack">สแตก</a></li>
         <li><a href="#philosophy">ปรัชญา</a></li>
-        <li><a href="#contact">ติดต่อ</a></li>
+        <li><a href="mailto:customer-care@alwayslinksolutions.com?subject=ขอความช่วยเหลือ" class="support-link">ซัพพอร์ต</a></li>
       </ul>
     </nav>
     <div class="nav-right">

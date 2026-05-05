@@ -18,6 +18,7 @@ ROOT = Path(__file__).parent
 SITE = "https://alwayslinksolutions.com"
 BRAND = "Always Link Solutions"
 EMAIL = "hello@alwayslinksolutions.com"
+SUPPORT_EMAIL = "customer-care@alwayslinksolutions.com"
 TODAY = date.today().isoformat()
 
 # Full ALS logo SVG (white, transparent bg) — inlined so internal fonts inherit
@@ -55,6 +56,8 @@ COPY = {
         "nav_stack": "Stack",
         "nav_philosophy": "Philosophy",
         "nav_contact": "Contact",
+        "nav_support": "Support",
+        "support_subject": "Support request",
         "hero_eyebrow": "&gt; SINCE 2026 // BANGKOK",
         "hero_h1_html": "Link it. Automate it.<br><span class='accent'>Own it.</span>",
         "hero_lead": "From Bangkok, we design and operate lean, resilient technical stacks: Proxmox, Docker, Linux, Odoo, self-hosted RAG and LLM pipelines, n8n workflows. Systems that hold up in production — not just in slides.",
@@ -106,6 +109,8 @@ COPY = {
         "nav_stack": "Stack",
         "nav_philosophy": "Philosophie",
         "nav_contact": "Contact",
+        "nav_support": "Support",
+        "support_subject": "Demande de support",
         "hero_eyebrow": "&gt; DEPUIS 2026 // BANGKOK",
         "hero_h1_html": "Link it. Automate it.<br><span class='accent'>Own it.</span>",
         "hero_lead": "Depuis Bangkok, on conçoit et opère des stacks techniques sobres et tenues : Proxmox, Docker, Linux, Odoo, pipelines RAG et LLM auto-hébergés, workflows n8n. Des solutions qui tiennent en production, pas des slides.",
@@ -157,6 +162,8 @@ COPY = {
         "nav_stack": "สแตก",
         "nav_philosophy": "ปรัชญา",
         "nav_contact": "ติดต่อ",
+        "nav_support": "ซัพพอร์ต",
+        "support_subject": "ขอความช่วยเหลือ",
         "hero_eyebrow": "&gt; ตั้งแต่ 2026 // กรุงเทพฯ",
         "hero_h1_html": "Link it. Automate it.<br><span class='accent'>Own it.</span>",
         "hero_lead": "จากกรุงเทพฯ เราออกแบบและดูแลสแตกเทคนิคที่เรียบง่ายและมั่นคง: Proxmox, Docker, Linux, Odoo, ไปป์ไลน์ RAG และ LLM ที่โฮสต์เอง, เวิร์กโฟลว์ n8n ระบบที่ทำงานได้จริงในโปรดักชัน — ไม่ใช่แค่บนสไลด์",
@@ -378,6 +385,16 @@ img { max-width: 100%; height: auto; display: block; }
   transition: color var(--t), background var(--t);
 }
 .nav-links a:hover { color: var(--ink-strong); background: var(--glass-strong); }
+.nav-links a.support-link {
+  color: var(--accent);
+  border: 1px solid var(--line-accent);
+  background: var(--accent-soft);
+}
+.nav-links a.support-link:hover {
+  background: rgba(126,232,250,0.18);
+  color: var(--ink-strong);
+  border-color: var(--accent);
+}
 .nav-right { display: flex; align-items: center; gap: 12px; }
 .lang-switch {
   display: inline-flex;
@@ -980,7 +997,7 @@ def nav(c, lang):
         <li><a href="#services">{c['nav_services']}</a></li>
         <li><a href="#stack">{c['nav_stack']}</a></li>
         <li><a href="#philosophy">{c['nav_philosophy']}</a></li>
-        <li><a href="#contact">{c['nav_contact']}</a></li>
+        <li><a href="mailto:{SUPPORT_EMAIL}?subject={c['support_subject']}" class="support-link">{c['nav_support']}</a></li>
       </ul>
     </nav>
     <div class="nav-right">
