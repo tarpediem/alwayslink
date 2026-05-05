@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OG card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1200px; height: 630px; overflow: hidden; background: #0A0C10; font-family: 'Inter', system-ui, sans-serif; color: #F2F3F5; }
+
+body {
+  background:
+    radial-gradient(circle at 88% 12%, rgba(126,232,250,0.18), transparent 55%),
+    radial-gradient(circle at 8% 90%, rgba(58,111,248,0.14), transparent 50%),
+    #0A0C10;
+  position: relative;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding: 56px 72px;
+}
+
+/* faint grid */
+body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+}
+
+/* corner labels */
+.corner {
+  position: absolute;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: #5A6068;
+}
+.tl { top: 32px; left: 72px; }
+.tr { top: 32px; right: 72px; }
+.bl { bottom: 32px; left: 72px; color: #7EE8FA; }
+.br { bottom: 32px; right: 72px; }
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 36px;
+}
+.brand-mark {
+  width: 96px;
+  height: 96px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(126,232,250,0.30);
+  border-radius: 20px;
+  background: rgba(126,232,250,0.08);
+  box-shadow: 0 0 32px rgba(126,232,250,0.18);
+}
+.brand-mark svg { width: 64px; height: 64px; }
+
+h1 {
+  font-size: 88px;
+  font-weight: 600;
+  line-height: 1.0;
+  letter-spacing: -3px;
+  color: #FFFFFF;
+  max-width: 980px;
+}
+h1 .accent { color: #7EE8FA; }
+
+.lead {
+  margin-top: 24px;
+  font-size: 26px;
+  line-height: 1.4;
+  color: #8A8F98;
+  max-width: 880px;
+  font-weight: 400;
+}
+.lead strong { color: #E8C9A0; font-weight: 500; }
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(126,232,250,0.45), transparent);
+  margin-top: 28px;
+  width: 320px;
+}
+</style>
+</head>
+<body>
+  <span class="corner tl">[01] BRAND</span>
+  <span class="corner tr">v2026.05</span>
+  <span class="corner bl">&gt; LINK IT. AUTOMATE IT. OWN IT.</span>
+  <span class="corner br">alwayslinksolutions.com</span>
+
+  <main>
+    <div class="brand-row">
+      <div class="brand-mark">
+        <svg viewBox="373 155.89 282.04 204.99" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#FFFFFF" d="M596.174805,340.900635C594.867676,339.580017 593.393188,338.665741 592.886963,337.372467C590.401367,331.022552 584.793518,329.791321 579.124268,328.180603C540.537109,317.217651 501.983887,306.134949 463.436951,295.031219C460.612183,294.217529 457.601532,293.699280 454.331360,291.193451C459.523132,287.070953 464.203094,282.988556 469.666901,279.954224C471.326874,279.032349 473.255341,280.129242 475.001068,280.627869C509.416077,290.457581 543.827087,300.301453 578.237366,310.147827C579.837646,310.605804 581.470398,310.998962 583.006653,311.622772C586.447571,313.019958 588.147949,311.945831 589.882751,308.538971C597.340149,293.893982 615.012085,289.348236 628.746765,298.202515C641.659119,306.526672 644.593567,324.855225 635.018005,337.372314C626.279236,348.795563 609.538025,350.427795 596.174805,340.900635z"/>
+          <path fill="#FFFFFF" d="M402.378662,316.922302C388.447235,309.404358 383.443756,295.293488 389.572784,281.627991C395.360077,268.724426 410.069702,262.781921 423.984344,268.035461C426.733673,269.073486 428.465820,268.748199 430.713135,267.075073C453.809448,249.879364 476.984222,232.788971 500.143524,215.677917C501.467224,214.699936 502.846954,213.797775 504.593628,212.588150C508.389496,216.937149 511.451385,221.700424 516.300293,224.898438C513.871704,228.566956 510.521332,230.196304 507.647125,232.329468C486.000305,248.394989 464.330414,264.429657 442.608551,280.393402C440.207367,282.158081 439.372559,283.752289 439.939728,286.987091C441.750549,297.314911 439.405365,306.712891 430.952789,313.511932C422.438721,320.360382 412.802795,321.145264 402.378662,316.922302z"/>
+          <path fill="#FFFFFF" d="M552.657043,233.281006C551.611572,231.541992 550.674377,230.157303 549.896912,228.688080C547.396484,223.962662 544.927979,221.091415 538.149597,221.620697C526.693604,222.515213 515.962524,212.940720 513.069824,201.679306C510.253052,190.713211 514.865112,178.685638 524.152771,172.776764C534.280029,166.333771 547.855835,167.189087 556.759949,174.831131C565.609436,182.426285 568.895935,195.097443 563.700562,205.644852C561.261902,210.595886 561.907471,213.992294 564.595337,218.352951C576.649902,237.910049 588.404419,257.652283 600.228394,277.351013C601.232239,279.023529 602.648743,280.542450 602.815430,283.156097C598.747498,285.595703 594.123535,287.500183 590.301270,290.744446C588.161194,292.560913 587.168945,290.243408 586.233337,288.698547C576.660339,272.891266 567.093262,257.080444 557.521179,241.272614C555.968750,238.708817 554.399841,236.155029 552.657043,233.281006z"/>
+          <path fill="#FFFFFF" d="M528.543457,236.591400C530.333923,235.264267 531.790833,234.794861 533.125488,236.632553C533.419128,237.036896 533.729370,237.429199 534.031738,237.827240C542.860535,249.452759 542.843750,249.430389 531.329346,258.063263C525.200195,262.658478 519.099426,267.293793 513.071411,272.020203C510.768402,273.825958 508.571625,274.403351 505.711731,273.301178C500.042084,271.116241 493.843658,270.412750 487.104187,267.005768C501.351501,256.540833 514.799744,246.662811 528.543457,236.591400z"/>
+        </svg>
+      </div>
+      <div>
+        <div style="font-family:'IBM Plex Mono', monospace; font-size:14px; letter-spacing:2px; color:#7EE8FA; margin-bottom:6px;">ALWAYS LINK SOLUTIONS</div>
+        <div style="font-family:'IBM Plex Mono', monospace; font-size:13px; letter-spacing:1.4px; color:#5A6068;">BANGKOK · SOUTHEAST ASIA</div>
+      </div>
+    </div>
+
+    <h1>Link it. Automate&nbsp;it.<br><span class="accent">Own it.</span></h1>
+
+    <div class="divider"></div>
+
+    <p class="lead">Self-hosted infrastructure, AI &amp; automation for SME in&nbsp;<strong>Thailand</strong> &amp; SEA. Proxmox, Docker, Odoo, n8n, Ollama.</p>
+  </main>
+</body>
+</html>
