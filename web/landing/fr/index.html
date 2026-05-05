@@ -1,690 +1,963 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0C10">
+<meta name="color-scheme" content="dark">
+<title>Always Link Solutions — Infrastructure, IA & Automation pour PME en Asie du Sud-Est</title>
+<meta name="description" content="Conseil IT basé à Bangkok pour PME en Thaïlande et Asie du Sud-Est. Proxmox, Docker, Odoo ERP, IA auto-hébergée, automatisation n8n. Une infrastructure sobre qui tient en production.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://alwayslinksolutions.com/fr/">
+<link rel="alternate" hreflang="en" href="https://alwayslinksolutions.com/en/" />
+  <link rel="alternate" hreflang="fr" href="https://alwayslinksolutions.com/fr/" />
+  <link rel="alternate" hreflang="th" href="https://alwayslinksolutions.com/th/" />
+<link rel="alternate" hreflang="x-default" href="https://alwayslinksolutions.com/">
+<link rel="icon" type="image/svg+xml" href="/als-mark.svg">
+<link rel="apple-touch-icon" href="/als-mark.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Always Link Solutions">
+<meta property="og:title" content="Always Link Solutions — Infrastructure, IA & Automation pour PME en Asie du Sud-Est">
+<meta property="og:description" content="Conseil IT basé à Bangkok pour PME en Thaïlande et Asie du Sud-Est. Proxmox, Docker, Odoo ERP, IA auto-hébergée, automatisation n8n. Une infrastructure sobre qui tient en production.">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:url" content="https://alwayslinksolutions.com/fr/">
+<meta property="og:image" content="https://alwayslinksolutions.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Always Link Solutions — Infrastructure, IA & Automation pour PME en Asie du Sud-Est">
+<meta name="twitter:description" content="Conseil IT basé à Bangkok pour PME en Thaïlande et Asie du Sud-Est. Proxmox, Docker, Odoo ERP, IA auto-hébergée, automatisation n8n. Une infrastructure sobre qui tient en production.">
+<meta name="twitter:image" content="https://alwayslinksolutions.com/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:        #0A0C10;
-    --bg-2:      #0E1117;
-    --ink:       #F2F3F5;
-    --ink-mute:  #8A8F98;
-    --ink-dim:   #555A63;
-    --line:      rgba(255,255,255,0.06);
-    --line-2:    rgba(255,255,255,0.12);
-    --accent:    #7EE8FA;      /* cyan électrique, discret */
-    --accent-2:  #3A6FF8;      /* bleu profond */
-    --warm:      #E8C9A0;      /* touche chaude, sparingly */
-  }
+:root {
+  --bg: #0A0C10;
+  --bg-2: #0E1117;
+  --bg-3: #14181F;
+  --bg-elev: #1A1F28;
+  --ink-strong: #FFFFFF;
+  --ink: #F2F3F5;
+  --ink-body: #D6D9DE;
+  --ink-mute: #8A8F98;
+  --ink-faint: #5A6068;
+  --accent: #7EE8FA;
+  --accent-active: #5AC4D8;
+  --accent-soft: rgba(126,232,250,0.10);
+  --accent-faint: rgba(126,232,250,0.04);
+  --accent-blue: #3A6FF8;
+  --accent-blue-soft: rgba(58,111,248,0.10);
+  --warm: #E8C9A0;
+  --warm-soft: rgba(232,201,160,0.10);
+  --line: rgba(255,255,255,0.06);
+  --line-2: rgba(255,255,255,0.14);
+  --line-accent: rgba(126,232,250,0.30);
+  --glass: rgba(14,17,23,0.55);
+  --glass-strong: rgba(255,255,255,0.07);
+  --success: #5DD37A;
+  --error: #FF6B6B;
+  --shadow-card: 0 1px 0 rgba(255,255,255,0.04) inset, 0 8px 32px rgba(0,0,0,0.4);
+  --shadow-glow-cyan: 0 0 24px rgba(126,232,250,0.18);
+  --shadow-glow-blue: 0 0 28px rgba(58,111,248,0.22);
+  --ring-focus: 0 0 0 3px rgba(126,232,250,0.30);
+  --t: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  html,body{background:var(--bg);color:var(--ink);font-family:'Inter', 'IBM Plex Sans Thai', sans-serif;font-weight:300;line-height:1.55;-webkit-font-smoothing:antialiased}
-  body{min-height:100vh;overflow-x:hidden;position:relative}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+html, body {
+  background: var(--bg);
+  color: var(--ink-body);
+  font-family: 'Inter', 'IBM Plex Sans Thai', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
 
-  /* ---------- Atmosphère : mesh + grain ---------- */
-  body::before{
-    content:'';
-    position:fixed;inset:0;z-index:0;pointer-events:none;
-    background:
-      radial-gradient(ellipse 70% 50% at 80% 10%, rgba(58,111,248,0.12), transparent 60%),
-      radial-gradient(ellipse 50% 40% at 10% 90%, rgba(126,232,250,0.08), transparent 65%),
-      radial-gradient(ellipse 40% 30% at 50% 50%, rgba(232,201,160,0.03), transparent 70%);
-  }
-  body::after{
-    content:'';
-    position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0.35;mix-blend-mode:overlay;
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  }
+body {
+  background:
+    radial-gradient(circle at 80% 0%, rgba(126,232,250,0.08), transparent 50%),
+    radial-gradient(circle at 0% 50%, rgba(58,111,248,0.06), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+  position: relative;
+}
 
-  /* ---------- Grille fine d'arrière-plan ---------- */
-  .grid-bg{
-    position:fixed;inset:0;z-index:0;pointer-events:none;
-    background-image:
-      linear-gradient(var(--line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size:80px 80px;
-    mask-image:radial-gradient(ellipse 100% 70% at 50% 40%, black 30%, transparent 90%);
-    -webkit-mask-image:radial-gradient(ellipse 100% 70% at 50% 40%, black 30%, transparent 90%);
-  }
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.025;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
 
-  /* ---------- Container ---------- */
-  .shell{position:relative;z-index:2;max-width:1440px;margin:0 auto;padding:32px 56px}
-  @media (max-width:768px){.shell{padding:24px 22px}}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
 
-  /* ---------- NAV ---------- */
-  nav.top{
-    display:flex;align-items:center;justify-content:space-between;
-    padding:14px 0;border-bottom:1px solid var(--line);
-    animation:fadeIn 0.8s 0.1s both ease-out;
-  }
-  nav.top .brand-mini{display:flex;align-items:center;gap:12px}
-  nav.top .brand-mini svg{width:34px;height:auto}
-  nav.top .brand-mini .name{
-    font-family:'Instrument Serif', 'Noto Serif Thai', serif;font-weight:500;font-size:17px;letter-spacing:0.02em;
-  }
-  nav.top ul{display:flex;list-style:none;gap:38px}
-  nav.top a{
-    color:var(--ink-mute);text-decoration:none;font-size:13px;letter-spacing:0.04em;
-    transition:color .3s ease;
-  }
-  nav.top a:hover{color:var(--ink)}
-  nav.top .cta{
-    font-family:'Geist Mono', monospace;font-size:12px;color:var(--ink);
-    padding:9px 18px;border:1px solid var(--line-2);border-radius:999px;
-    transition:all .3s ease;text-decoration:none;letter-spacing:0.05em;
-  }
-  nav.top .cta:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-  @media (max-width:768px){nav.top ul{display:none}}
+main, header, footer { position: relative; z-index: 1; }
 
-  /* ---------- HERO ---------- */
-  .hero{
-    display:grid;grid-template-columns:1.3fr 1fr;gap:80px;align-items:center;
-    padding:90px 0 120px;position:relative;
-  }
-  @media (max-width:900px){.hero{grid-template-columns:1fr;padding:60px 0 80px;gap:48px}}
+a { color: var(--accent); text-decoration: none; transition: color var(--t); }
+a:hover { color: var(--ink-strong); }
+img { max-width: 100%; height: auto; display: block; }
 
-  .hero .eyebrow{
-    display:inline-flex;align-items:center;gap:10px;
-    font-family:'Geist Mono', monospace;font-size:11px;
-    color:var(--accent);letter-spacing:0.18em;text-transform:uppercase;
-    margin-bottom:28px;
-    animation:slideUp 0.8s 0.2s both ease-out;
-  }
-  .hero .eyebrow::before{
-    content:'';width:28px;height:1px;background:var(--accent);display:inline-block;
-  }
+::selection { background: var(--accent); color: var(--bg); }
+:focus-visible { outline: none; box-shadow: var(--ring-focus); border-radius: 8px; }
 
-  .hero h1{
-    font-family:'Instrument Serif', 'Noto Serif Thai', serif;
-    font-weight:300;
-    font-size:clamp(44px, 6.5vw, 92px);
-    line-height:0.98;
-    letter-spacing:-0.025em;
-    color:var(--ink);
-    animation:slideUp 0.9s 0.35s both ease-out;
-  }
-  .hero h1 em{
-    font-style:italic;font-weight:300;color:var(--accent);
-    font-variation-settings:"opsz" 144;
-  }
-  .hero h1 .stroke{
-    display:inline-block;position:relative;
-  }
-  .hero h1 .stroke::after{
-    content:'';position:absolute;left:-4%;right:-4%;bottom:0.08em;height:0.12em;
-    background:linear-gradient(90deg, transparent, var(--accent), transparent);
-    opacity:0.6;
-  }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+.container-wide { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
 
-  .hero p.lead{
-    margin-top:34px;max-width:540px;
-    font-size:17px;color:var(--ink-mute);line-height:1.65;
-    animation:slideUp 0.9s 0.5s both ease-out;
-  }
+/* eyebrow */
+.eyebrow {
+  font-family: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  display: inline-block;
+}
+.eyebrow.accent { color: var(--accent); }
+.section-head { margin-bottom: 56px; }
+.section-head .eyebrow { margin-bottom: 16px; }
+.section-head h2 {
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -1.5px;
+  color: var(--ink-strong);
+  max-width: 900px;
+}
+.section-head .lead {
+  margin-top: 20px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ink-mute);
+  max-width: 640px;
+}
 
-  .hero .actions{
-    margin-top:44px;display:flex;gap:16px;align-items:center;
-    animation:slideUp 0.9s 0.65s both ease-out;
-  }
-  .btn-primary{
-    background:var(--ink);color:var(--bg);padding:15px 28px;border-radius:999px;
-    font-family:'Inter', 'IBM Plex Sans Thai', sans-serif;font-weight:500;font-size:14px;letter-spacing:0.02em;
-    text-decoration:none;display:inline-flex;align-items:center;gap:10px;
-    transition:all .3s cubic-bezier(.2,.8,.2,1);
-  }
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(126,232,250,0.15)}
-  .btn-primary svg{transition:transform .3s ease}
-  .btn-primary:hover svg{transform:translateX(4px)}
-  .btn-ghost{
-    color:var(--ink-mute);text-decoration:none;font-size:14px;
-    padding:15px 4px;border-bottom:1px solid var(--line-2);transition:all .3s ease;
-  }
-  .btn-ghost:hover{color:var(--ink);border-color:var(--ink)}
+.accent { color: var(--accent); }
+.warm, .warm-em { color: var(--warm); }
+.warm-em { font-style: italic; }
 
-  /* ---------- HERO LOGO STAGE ---------- */
-  .logo-stage{
-    position:relative;aspect-ratio:1/1;
-    display:flex;align-items:center;justify-content:center;
-    animation:fadeIn 1.2s 0.4s both ease-out;
-  }
-  .logo-stage .orbit{
-    position:absolute;inset:0;border:1px solid var(--line);border-radius:50%;
-    animation:spin 60s linear infinite;
-  }
-  .logo-stage .orbit.o2{inset:8%;border-color:var(--line-2);animation-duration:90s;animation-direction:reverse}
-  .logo-stage .orbit.o3{inset:18%;border-color:var(--line);animation-duration:120s}
+/* --- top nav --- */
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--glass);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border-bottom: 1px solid var(--line);
+}
+.top-nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--ink-strong);
+}
+.brand img { width: 28px; height: 28px; }
+.brand-name {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: var(--ink-strong);
+}
+.nav-links {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+}
+.nav-links a {
+  display: inline-block;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-mute);
+  border-radius: 8px;
+  transition: color var(--t), background var(--t);
+}
+.nav-links a:hover { color: var(--ink-strong); background: var(--glass-strong); }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+.lang-switch a {
+  padding: 5px 10px;
+  border-radius: 999px;
+  color: var(--ink-mute);
+  font-weight: 500;
+  transition: all var(--t);
+}
+.lang-switch a:hover { color: var(--ink); }
+.lang-switch a.active { background: var(--accent); color: var(--bg); }
 
-  .logo-stage .orbit::before{
-    content:'';position:absolute;top:-3px;left:50%;width:6px;height:6px;
-    background:var(--accent);border-radius:50%;transform:translateX(-50%);
-    box-shadow:0 0 16px var(--accent);
-  }
-  .logo-stage .orbit.o2::before{background:var(--accent-2);box-shadow:0 0 12px var(--accent-2);top:auto;bottom:-3px}
-  .logo-stage .orbit.o3::before{background:var(--warm);box-shadow:0 0 10px var(--warm);left:-3px;top:50%;transform:translateY(-50%)}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 22px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--t);
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+  box-shadow: var(--shadow-glow-cyan);
+}
+.btn-primary:hover {
+  background: var(--accent-active);
+  color: var(--bg);
+  box-shadow: 0 0 18px rgba(126,232,250,0.32);
+  transform: translateY(-1px);
+}
+.btn-secondary {
+  background: var(--glass-strong);
+  color: var(--ink);
+  border-color: var(--line-2);
+  backdrop-filter: blur(20px);
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.10); color: var(--ink-strong); }
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+}
+.btn-ghost:hover { border-color: var(--line-2); color: var(--ink-strong); }
+.btn-sm { height: 36px; padding: 0 16px; font-size: 13px; }
 
-  .logo-stage .logo-wrap{
-    position:relative;width:62%;
-    filter:drop-shadow(0 0 40px rgba(126,232,250,0.08));
-  }
-  .logo-stage .logo-wrap svg{width:100%;height:auto;display:block}
+/* --- hero --- */
+.hero {
+  padding: 96px 0 112px;
+  position: relative;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: 56px;
+  align-items: center;
+}
+.hero-eyebrow { margin-bottom: 28px; color: var(--accent); }
+.hero h1 {
+  font-size: clamp(40px, 7.2vw, 88px);
+  font-weight: 600;
+  line-height: 1.0;
+  letter-spacing: -3px;
+  color: var(--ink-strong);
+  margin-bottom: 28px;
+}
+.hero-lead {
+  font-size: clamp(16px, 1.5vw, 19px);
+  line-height: 1.6;
+  color: var(--ink-mute);
+  max-width: 560px;
+  margin-bottom: 36px;
+}
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 32px; }
+.hero-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  color: var(--ink-body);
+}
+.chip .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--success);
+  box-shadow: 0 0 8px rgba(93,211,122,0.6);
+}
 
-  .logo-stage .corner{
-    position:absolute;font-family:'Geist Mono', monospace;font-size:10px;
-    color:var(--ink-dim);letter-spacing:0.1em;
-  }
-  .logo-stage .corner.tl{top:2%;left:2%}
-  .logo-stage .corner.tr{top:2%;right:2%;text-align:right}
-  .logo-stage .corner.bl{bottom:2%;left:2%}
-  .logo-stage .corner.br{bottom:2%;right:2%;text-align:right}
+/* --- logo stage (hero right) — orbital rings around centered logo --- */
+.logo-stage {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 1.2s 0.3s both ease-out;
+}
+.logo-stage .orbit {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  animation: spin 60s linear infinite;
+}
+.logo-stage .orbit.o2 {
+  inset: 8%;
+  border-color: var(--line-2);
+  animation-duration: 90s;
+  animation-direction: reverse;
+}
+.logo-stage .orbit.o3 {
+  inset: 18%;
+  border-color: var(--line);
+  animation-duration: 120s;
+}
+.logo-stage .orbit::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 16px var(--accent);
+}
+.logo-stage .orbit.o2::before {
+  background: var(--accent-blue);
+  box-shadow: 0 0 12px var(--accent-blue);
+  top: auto;
+  bottom: -3px;
+}
+.logo-stage .orbit.o3::before {
+  background: var(--warm);
+  box-shadow: 0 0 10px var(--warm);
+  left: -3px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.logo-stage .logo-wrap {
+  position: relative;
+  width: 62%;
+  filter: drop-shadow(0 0 40px rgba(126,232,250,0.10));
+}
+.logo-stage .logo-wrap svg { width: 100%; height: auto; display: block; }
+.logo-stage .corner {
+  position: absolute;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 1.4px;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+.logo-stage .corner.tl { top: 2%; left: 2%; }
+.logo-stage .corner.tr { top: 2%; right: 2%; text-align: right; }
+.logo-stage .corner.bl { bottom: 2%; left: 2%; }
+.logo-stage .corner.br { bottom: 2%; right: 2%; text-align: right; }
 
-  /* ---------- META BAR ---------- */
-  .meta-bar{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:48px;
-    padding:40px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-    animation:fadeIn 0.9s 0.8s both ease-out;
-  }
-  .meta-bar .cell{display:flex;flex-direction:column;gap:6px}
-  .meta-bar .k{
-    font-family:'Geist Mono', monospace;font-size:10px;color:var(--ink-dim);
-    letter-spacing:0.15em;text-transform:uppercase;
-  }
-  .meta-bar .v{
-    font-family:'Instrument Serif', 'Noto Serif Thai', serif;font-size:22px;font-weight:400;letter-spacing:-0.01em;
-  }
-  .meta-bar .v span{color:var(--accent);font-style:italic}
-  @media (max-width:768px){.meta-bar{grid-template-columns:repeat(2,1fr);gap:24px}}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* ---------- SERVICES ---------- */
-  .services{padding:110px 0 90px;position:relative}
-  .section-head{
-    display:flex;justify-content:space-between;align-items:flex-end;gap:40px;
-    margin-bottom:72px;padding-bottom:24px;border-bottom:1px solid var(--line);
-  }
-  .section-head h2{
-    font-family:'Instrument Serif', 'Noto Serif Thai', serif;font-weight:300;
-    font-size:clamp(32px,4vw,54px);line-height:1.05;letter-spacing:-0.02em;
-    max-width:720px;
-  }
-  .section-head h2 em{font-style:italic;color:var(--ink-mute)}
-  .section-head .num{
-    font-family:'Geist Mono', monospace;font-size:11px;
-    color:var(--ink-dim);letter-spacing:0.15em;white-space:nowrap;
-  }
+@media (prefers-reduced-motion: reduce) {
+  .logo-stage, .logo-stage .orbit { animation: none; }
+}
 
-  .services-grid{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
-    background:var(--line);border:1px solid var(--line);
-  }
-  @media (max-width:900px){.services-grid{grid-template-columns:1fr}}
+/* --- terminal artifact (used in live-ops section) --- */
+.live-ops .terminal { max-width: 920px; margin: 0 auto; }
+.terminal {
+  background: var(--bg-3);
+  border: 1px solid var(--line-2);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow-card), var(--shadow-glow-cyan);
+  backdrop-filter: blur(20px);
+}
+.term-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-2);
+}
+.term-bar .dots { display: flex; gap: 6px; }
+.term-bar .dots span {
+  width: 10px; height: 10px; border-radius: 999px;
+  background: var(--line-2);
+}
+.term-bar .dots span:nth-child(1) { background: rgba(255,107,107,0.6); }
+.term-bar .dots span:nth-child(2) { background: rgba(232,201,160,0.6); }
+.term-bar .dots span:nth-child(3) { background: rgba(93,211,122,0.6); }
+.term-bar .term-title {
+  flex: 1;
+  text-align: center;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--ink-faint);
+  letter-spacing: 0.4px;
+}
+.term-body {
+  padding: 24px 22px;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--ink-body);
+  white-space: pre-wrap;
+}
+.term-body .prompt { color: var(--accent); }
+.term-body .ok { color: var(--success); }
+.term-body .warn { color: var(--warm); }
+.term-body .mute { color: var(--ink-faint); }
 
-  .service{
-    background:var(--bg);padding:42px 36px 48px;
-    transition:background .4s ease;position:relative;overflow:hidden;
-    min-height:360px;display:flex;flex-direction:column;
-  }
-  .service:hover{background:var(--bg-2)}
-  .service::before{
-    content:'';position:absolute;top:0;left:0;right:0;height:1px;
-    background:linear-gradient(90deg, transparent, var(--accent), transparent);
-    transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.2,.8,.2,1);
-  }
-  .service:hover::before{transform:scaleX(1)}
+/* --- generic section --- */
+section { padding: 96px 0; }
+section.hero { padding: 96px 0 64px; }
+section + section { padding-top: 96px; }
+/* hairline divider between sections (subtle) */
+section + section::before {
+  content: '';
+  display: block;
+  max-width: 1200px;
+  height: 1px;
+  margin: 0 auto 96px;
+  background: linear-gradient(90deg, transparent, var(--line), transparent);
+}
 
-  .service .idx{
-    font-family:'Geist Mono', monospace;font-size:10px;color:var(--ink-dim);
-    letter-spacing:0.15em;margin-bottom:28px;
-  }
-  .service h3{
-    font-family:'Instrument Serif', 'Noto Serif Thai', serif;font-weight:400;font-size:28px;
-    line-height:1.1;letter-spacing:-0.01em;margin-bottom:18px;
-  }
-  .service h3 em{color:var(--accent);font-style:italic}
-  .service p{color:var(--ink-mute);font-size:14.5px;line-height:1.65;margin-bottom:auto}
-  .service .tags{
-    display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;
-  }
-  .service .tag{
-    font-family:'Geist Mono', monospace;font-size:10.5px;
-    color:var(--ink-mute);padding:5px 10px;
-    border:1px solid var(--line-2);border-radius:4px;
-    letter-spacing:0.02em;
-  }
+/* --- services --- */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.service-card {
+  position: relative;
+  padding: 32px;
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--line-2);
+  border-radius: 14px;
+  box-shadow: var(--shadow-card);
+  transition: transform var(--t), border-color var(--t), box-shadow var(--t);
+  display: flex;
+  flex-direction: column;
+}
+.service-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--line-accent);
+  box-shadow: var(--shadow-card), var(--shadow-glow-cyan);
+}
+.service-icon {
+  width: 40px; height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  border: 1px solid var(--line-accent);
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+.service-icon svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+.service-idx {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+}
+.service-card h3 {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+  color: var(--ink-strong);
+  margin-bottom: 16px;
+}
+.service-card p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-body);
+  margin-bottom: 24px;
+  flex: 1;
+}
+.tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+.tag {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.3px;
+  padding: 4px 10px;
+  background: var(--glass-strong);
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  color: var(--ink-mute);
+}
+.service-link {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  color: var(--accent);
+  font-weight: 500;
+  text-transform: uppercase;
+}
 
-  /* ---------- QUOTE / PHILOSOPHY ---------- */
-  .quote-block{
-    padding:120px 0;border-top:1px solid var(--line);
-    display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start;
-  }
-  @media (max-width:900px){.quote-block{grid-template-columns:1fr;gap:32px;padding:80px 0}}
-  .quote-block .label{
-    font-family:'Geist Mono', monospace;font-size:11px;
-    color:var(--ink-dim);letter-spacing:0.18em;text-transform:uppercase;
-    padding-top:18px;
-  }
-  .quote-block blockquote{
-    font-family:'Instrument Serif', 'Noto Serif Thai', serif;font-weight:300;
-    font-size:clamp(26px,3.2vw,42px);line-height:1.22;letter-spacing:-0.015em;
-    color:var(--ink);
-  }
-  .quote-block blockquote em{color:var(--warm);font-style:italic}
-  .quote-block .sig{
-    margin-top:36px;font-size:13px;color:var(--ink-mute);
-    display:flex;align-items:center;gap:14px;
-  }
-  .quote-block .sig::before{content:'';width:24px;height:1px;background:var(--ink-dim)}
+/* --- philosophy --- */
+.philosophy {
+  position: relative;
+}
+.philosophy-card {
+  padding: 64px;
+  border-radius: 20px;
+  background: var(--bg-2);
+  border: 1px solid var(--line-2);
+  position: relative;
+  overflow: hidden;
+}
+.philosophy-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(232,201,160,0.10), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(126,232,250,0.06), transparent 50%);
+  pointer-events: none;
+}
+.philosophy-card > * { position: relative; }
+.philosophy-h2 {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  color: var(--ink-strong);
+  margin-top: 24px;
+  margin-bottom: 32px;
+  max-width: 720px;
+}
+.philosophy-quote {
+  font-size: clamp(20px, 2.4vw, 28px);
+  line-height: 1.4;
+  color: var(--ink);
+  font-weight: 400;
+  letter-spacing: -0.4px;
+  max-width: 880px;
+  position: relative;
+  padding-left: 32px;
+  border-left: 2px solid var(--warm);
+}
+.philosophy-sig {
+  margin-top: 32px;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+  color: var(--ink-mute);
+}
 
-  /* ---------- FOOTER ---------- */
-  footer{
-    padding:56px 0 40px;border-top:1px solid var(--line);
-    display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;
-  }
-  @media (max-width:900px){footer{grid-template-columns:1fr 1fr;gap:40px}}
-  @media (max-width:500px){footer{grid-template-columns:1fr}}
-  footer .brand-block svg{width:48px;height:auto;margin-bottom:20px}
-  footer .brand-block .tagline{
-    font-family:'Instrument Serif', 'Noto Serif Thai', serif;font-style:italic;font-weight:300;
-    font-size:18px;color:var(--ink-mute);max-width:360px;line-height:1.45;
-  }
-  footer h4{
-    font-family:'Geist Mono', monospace;font-size:10px;color:var(--ink-dim);
-    letter-spacing:0.15em;text-transform:uppercase;margin-bottom:18px;font-weight:500;
-  }
-  footer ul{list-style:none;display:flex;flex-direction:column;gap:10px}
-  footer a{color:var(--ink-mute);text-decoration:none;font-size:14px;transition:color .3s}
-  footer a:hover{color:var(--ink)}
+/* --- stack grid --- */
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+}
+.stack-cell {
+  padding: 24px 12px;
+  background: var(--glass);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 110px;
+  transition: background var(--t);
+}
+.stack-cell:hover { background: var(--bg-2); }
+.stack-cell img {
+  width: 32px;
+  height: 32px;
+  filter: brightness(0) invert(1);
+  opacity: 0.75;
+  transition: opacity var(--t);
+}
+.stack-cell:hover img { opacity: 1; }
+.stack-cell span {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.3px;
+  color: var(--ink-mute);
+  text-align: center;
+}
+.stack-cell:hover span { color: var(--ink); }
 
-  .footer-bottom{
-    max-width:1440px;margin:0 auto;padding:20px 56px;
-    display:flex;justify-content:space-between;
-    font-family:'Geist Mono', monospace;font-size:11px;
-    color:var(--ink-dim);letter-spacing:0.05em;
-    border-top:1px solid var(--line);
-  }
-  @media (max-width:768px){.footer-bottom{padding:20px 22px;flex-direction:column;gap:8px}}
+/* --- CTA band --- */
+.cta-band {
+  padding: 64px;
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 80% 0%, rgba(126,232,250,0.15), transparent 60%),
+    var(--bg-2);
+  border: 1px solid var(--line-accent);
+  box-shadow: var(--shadow-glow-cyan);
+  text-align: center;
+}
+.cta-band .eyebrow { margin-bottom: 16px; color: var(--accent); }
+.cta-band h2 {
+  font-size: clamp(28px, 4.5vw, 48px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -1.2px;
+  color: var(--ink-strong);
+  margin-bottom: 32px;
+}
 
-  /* ---------- Animations ---------- */
-  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-  @keyframes slideUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes spin{to{transform:rotate(360deg)}}
+/* --- footer --- */
+.footer {
+  border-top: 1px solid var(--line);
+  padding: 64px 0 48px;
+  margin-top: 80px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 48px;
+}
+.footer-brand .brand { margin-bottom: 16px; }
+.footer-tagline {
+  font-size: 14px;
+  color: var(--ink-mute);
+  max-width: 320px;
+  line-height: 1.55;
+}
+.footer-col h4 {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 16px;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col a { font-size: 14px; color: var(--ink-body); }
+.footer-col a:hover { color: var(--ink-strong); }
+.footer-bottom {
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--ink-faint);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  letter-spacing: 0.3px;
+}
 
-  .lang-switch{display:inline-flex;align-items:center;gap:2px;border:1px solid var(--line-2);border-radius:999px;padding:3px;margin-right:14px;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:0.1em}
-  .lang-switch a.lang-pill{padding:4px 10px;color:var(--ink-mute);border-radius:999px;text-decoration:none;transition:all .25s ease;text-transform:uppercase}
-  .lang-switch a.lang-pill:hover{color:var(--ink)}
-  .lang-switch a.lang-pill.active{background:var(--ink);color:var(--bg)}
-  @media (max-width:640px){.lang-switch{margin-right:8px}.lang-switch a.lang-pill{padding:3px 7px;font-size:10px}}
-
-  /* ---------- STACK GRID ---------- */
-  .stack{padding:110px 0;border-top:1px solid var(--line)}
-  .stack .stack-grid{
-    margin-top:52px;display:grid;grid-template-columns:repeat(auto-fill, minmax(120px, 1fr));
-    gap:1px;background:var(--line);border:1px solid var(--line);
-  }
-  .stack-cell{
-    background:var(--bg);padding:28px 14px;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;gap:14px;min-height:120px;
-    transition:background .25s ease;
-  }
-  .stack-cell:hover{background:var(--bg-2)}
-  .stack-cell img{width:34px;height:34px;opacity:0.85;transition:opacity .25s;filter:saturate(0.92)}
-  .stack-cell:hover img{opacity:1;filter:none}
-  .stack-cell span{font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:0.06em;color:var(--ink-mute);text-align:center}
-  @media (max-width:520px){.stack .stack-grid{grid-template-columns:repeat(3,1fr)}.stack-cell{padding:20px 6px;min-height:96px}.stack-cell img{width:26px;height:26px}}
-
-  /* selection */
-  ::selection{background:var(--accent);color:var(--bg)}
+/* --- responsive --- */
+@media (max-width: 1024px) {
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .stack-grid { grid-template-columns: repeat(4, 1fr); }
+  .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .container, .container-wide, .top-nav-inner { padding: 0 20px; }
+  .nav-links { display: none; }
+  section { padding: 72px 0; }
+  .hero { padding: 56px 0 80px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .stack-grid { grid-template-columns: repeat(3, 1fr); }
+  .stack-cell { padding: 18px 6px; min-height: 96px; }
+  .stack-cell img { width: 26px; height: 26px; }
+  .philosophy-card { padding: 32px 24px; }
+  .cta-band { padding: 40px 24px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+  .term-body { font-size: 12px; padding: 18px 16px; }
+}
 </style>
-<title>Always Link Solutions — Infrastructure, IA & Automation pour PME en Asie du Sud-Est</title>
-<meta name="description" content="Conseil IT basé à Bangkok pour PME en Thaïlande et Asie du Sud-Est. Proxmox, Docker, Odoo ERP, IA auto-hébergée, automatisation n8n. Une infrastructure sobre qui tient en production." />
-<meta name="keywords" content="conseil IT Thaïlande, DevOps Bangkok, Proxmox Asie du Sud-Est, Odoo ERP PME, IA auto-hébergée, automatisation n8n, RAG LLM" />
-<meta name="author" content="Always Link Solutions" />
-<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-<meta name="theme-color" content="#0A0C10" />
-<meta name="color-scheme" content="dark" />
-
-<link rel="canonical" href="https://alwayslinksolutions.com/fr/" />
-<link rel="alternate" hreflang="en" href="https://alwayslinksolutions.com/en/" />
-<link rel="alternate" hreflang="fr" href="https://alwayslinksolutions.com/fr/" />
-<link rel="alternate" hreflang="th" href="https://alwayslinksolutions.com/th/" />
-<link rel="alternate" hreflang="x-default" href="https://alwayslinksolutions.com/en/" />
-
-<meta property="og:type" content="website" />
-<meta property="og:title" content="Always Link Solutions — Infrastructure, IA & Automation pour PME en Asie du Sud-Est" />
-<meta property="og:description" content="Conseil IT basé à Bangkok pour PME en Thaïlande et Asie du Sud-Est. Proxmox, Docker, Odoo ERP, IA auto-hébergée, automatisation n8n. Une infrastructure sobre qui tient en production." />
-<meta property="og:url" content="https://alwayslinksolutions.com/fr/" />
-<meta property="og:site_name" content="Always Link Solutions" />
-<meta property="og:locale" content="fr_FR" />
-<meta property="og:image" content="https://alwayslinksolutions.com/og-image.png" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Always Link Solutions — Infrastructure, IA & Automation pour PME en Asie du Sud-Est" />
-<meta name="twitter:description" content="Conseil IT basé à Bangkok pour PME en Thaïlande et Asie du Sud-Est. Proxmox, Docker, Odoo ERP, IA auto-hébergée, automatisation n8n. Une infrastructure sobre qui tient en production." />
-<meta name="twitter:image" content="https://alwayslinksolutions.com/og-image.png" />
-
-<link rel="icon" type="image/svg+xml" href="/als-mark.svg" />
-
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": [
-        "Organization",
-        "ProfessionalService"
-      ],
-      "@id": "https://alwayslinksolutions.com/#organization",
-      "name": "Always Link Solutions",
-      "legalName": "Always Link Solutions Co., Ltd.",
-      "url": "https://alwayslinksolutions.com",
-      "logo": "https://alwayslinksolutions.com/og-image.png",
-      "email": "hello@alwayslinksolutions.com",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Bangkok",
-        "addressCountry": "TH"
-      },
-      "areaServed": [
-        {
-          "@type": "Country",
-          "name": "Thailand"
-        },
-        {
-          "@type": "Country",
-          "name": "Vietnam"
-        },
-        {
-          "@type": "Country",
-          "name": "Singapore"
-        },
-        {
-          "@type": "Place",
-          "name": "Southeast Asia"
-        }
-      ],
-      "serviceType": [
-        "IT consulting",
-        "DevOps",
-        "Infrastructure engineering",
-        "AI automation",
-        "Odoo ERP consulting",
-        "Self-hosted AI & RAG"
-      ],
-      "knowsAbout": [
-        "Proxmox",
-        "Docker",
-        "Linux",
-        "Odoo",
-        "PostgreSQL",
-        "Ollama",
-        "Claude API",
-        "LangChain",
-        "n8n",
-        "RAG"
-      ],
-      "sameAs": [
-        "https://github.com/tarpediem/alwayslink"
-      ]
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://alwayslinksolutions.com/#website",
-      "url": "https://alwayslinksolutions.com",
-      "name": "Always Link Solutions",
-      "publisher": {
-        "@id": "https://alwayslinksolutions.com/#organization"
-      }
-    }
-  ]
+  "@type": "Organization",
+  "name": "Always Link Solutions",
+  "url": "https://alwayslinksolutions.com",
+  "logo": "https://alwayslinksolutions.com/als-mark.svg",
+  "email": "hello@alwayslinksolutions.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Bangkok",
+    "addressCountry": "TH"
+  },
+  "areaServed": ["Thailand", "Vietnam", "Singapore", "Southeast Asia"],
+  "description": "Conseil IT basé à Bangkok pour PME en Thaïlande et Asie du Sud-Est. Proxmox, Docker, Odoo ERP, IA auto-hébergée, automatisation n8n. Une infrastructure sobre qui tient en production."
 }
 </script>
-
 </head>
 <body>
-
-<div class="grid-bg"></div>
-
-<div class="shell">
-
-  <!-- =============== NAV =============== -->
-  <nav class="top">
-    <div class="brand-mini">
-      <svg viewBox="0 0 2528 1684" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path fill="#F2F3F5" d="M1303.6,772.9c47.3,13.6,94.7,27.3,142.1,40.6c6.5,1.8,10.6,4.6,14.1,10.8c15.8,28.6,49.9,40.8,80,29.2c29.6-11.4,46.9-44.3,39.9-75.6c-5.8-25.7-28.4-46.8-53.8-50c-28.5-3.6-55.3,10.6-67.6,36c-1.6,3.2-3,6.6-4.6,10.2c-2-0.4-3.6-0.6-5.1-1c-40.3-11.5-80.6-23-120.9-34.6c-52.8-15.1-105.6-30.2-158.3-45.5c-4.6-1.3-8.1-1.2-11.9,2c-6.9,5.7-14.4,10.8-21.6,16.2c-3.9,2.9-7.8,5.8-13,9.6C1183.9,738.5,1243,755.5,1303.6,772.9z M1076.9,759.8c11.7-18.7,13.6-38.5,5.7-59.9c64-47.5,127.8-95,191.1-142c-9.2-10.5-18.1-20.6-27.3-31c-62.9,46.8-126.2,93.9-189.3,140.9c-4.1-1.7-7.3-3.4-10.8-4.5c-26-8.4-49.7-4.9-69.1,15c-19.2,19.7-24.3,43.4-14.5,69.2c8.8,23,26.5,36.8,50.7,40.2C1039.1,791.3,1060.6,782.7,1076.9,759.8z M1478.3,680.6c-31.5-52.5-63-105-94.3-157.2c23.6-36,12.8-68.3-6.4-87.3c-21.3-21-54.6-24.4-80.1-8.5c-25.2,15.7-36.5,45.5-27.9,73.7c9.9,32.4,36,47.4,78.8,44.9c17.3,28.6,34.9,57.7,52.4,86.6c17.7,29.2,35.5,58.4,52.8,87.1c12.4-7.5,23.7-14.3,35.4-21.4C1485.6,692.6,1482.3,687.2,1478.3,680.6z"/>
-      </svg>
-      <span class="name">Always Link Solutions</span>
+<header class="top-nav">
+  <div class="top-nav-inner">
+    <a href="/fr/" class="brand">
+      <img src="/als-mark.svg" alt="ALS mark" width="28" height="28">
+      <span class="brand-name">Always Link Solutions</span>
+    </a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#stack">Stack</a></li>
+        <li><a href="#philosophy">Philosophie</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <div class="lang-switch" role="group" aria-label="Language"><a href="/en/" hreflang="en" class="">EN</a><a href="/fr/" hreflang="fr" class="active">FR</a><a href="/th/" hreflang="th" class="">TH</a></div>
+      <a href="mailto:hello@alwayslinksolutions.com" class="btn btn-primary btn-sm">Contact</a>
     </div>
-    <ul>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#philosophy">Approche</a></li>
-      <li><a href="#work">Réalisations</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <div class="lang-switch" role="group" aria-label="Language"><a href="/en/" hreflang="en" class="lang-pill">EN</a><a href="/fr/" hreflang="fr" class="lang-pill active">FR</a><a href="/th/" hreflang="th" class="lang-pill">TH</a></div><a href="#contact" class="cta">./contact</a>
-  </nav>
-
-  <!-- =============== HERO =============== -->
-  <section class="hero">
-    <div class="hero-text">
-      <div class="eyebrow">IT Consulting — SEA</div>
-      <h1>
-        Infrastructure, <em>AI</em><br>
-        &amp; automation pour<br>
-        PME <span class="stroke">connectées</span>.
-      </h1>
-      <p class="lead">
-        Depuis Bangkok, on conçoit et opère des stacks techniques sobres et tenues : Proxmox, Docker, Linux, Odoo, pipelines RAG et LLM auto-hébergés, workflows n8n. Des solutions qui tiennent en production, pas des slides.
-      </p>
-      <div class="actions">
-        <a href="#contact" class="btn-primary">
-          Démarrer un projet
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+</header>
+<main>
+<section class="hero container-wide">
+  <div class="hero-grid">
+    <div>
+      <span class="eyebrow accent hero-eyebrow">&gt; DEPUIS 2026 // BANGKOK</span>
+      <h1>Link it. Automate it.<br><span class='accent'>Own it.</span></h1>
+      <p class="hero-lead">Depuis Bangkok, on conçoit et opère des stacks techniques sobres et tenues : Proxmox, Docker, Linux, Odoo, pipelines RAG et LLM auto-hébergés, workflows n8n. Des solutions qui tiennent en production, pas des slides.</p>
+      <div class="hero-cta">
+        <a href="mailto:hello@alwayslinksolutions.com" class="btn btn-primary">Démarrer un projet
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="#services" class="btn-ghost">Voir les services</a>
+        <a href="#services" class="btn btn-ghost">Voir les services</a>
+      </div>
+      <div class="hero-chips">
+        <span class="chip"><span class="dot"></span>99.95 % uptime</span>
+        <span class="chip">Proxmox · LXC · Docker</span>
+        <span class="chip">Open-source d'abord</span>
       </div>
     </div>
-
-    <!-- Logo stage -->
     <div class="logo-stage" aria-hidden="true">
       <div class="orbit"></div>
       <div class="orbit o2"></div>
       <div class="orbit o3"></div>
-
       <span class="corner tl">[01] BRAND</span>
-      <span class="corner tr">v2026.04</span>
+      <span class="corner tr">v2026.05</span>
       <span class="corner bl">BKK</span>
       <span class="corner br">alwayslinksolutions.com</span>
-
-      <div class="logo-wrap">
-        <!-- Logo complet Always Link Solutions, all white, transparent background -->
-        <svg viewBox="0 0 2528 1684" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Always Link Solutions">
+      <div class="logo-wrap"><svg viewBox="0 0 2528 1684" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Always Link Solutions">
           <path fill="#FFFFFF" d="M1303.6,772.9c47.3,13.6,94.7,27.3,142.1,40.6c6.5,1.8,10.6,4.6,14.1,10.8c15.8,28.6,49.9,40.8,80,29.2c29.6-11.4,46.9-44.3,39.9-75.6c-5.8-25.7-28.4-46.8-53.8-50c-28.5-3.6-55.3,10.6-67.6,36c-1.6,3.2-3,6.6-4.6,10.2c-2-0.4-3.6-0.6-5.1-1c-40.3-11.5-80.6-23-120.9-34.6c-52.8-15.1-105.6-30.2-158.3-45.5c-4.6-1.3-8.1-1.2-11.9,2c-6.9,5.7-14.4,10.8-21.6,16.2c-3.9,2.9-7.8,5.8-13,9.6C1183.9,738.5,1243,755.5,1303.6,772.9z"/>
           <path fill="#FFFFFF" d="M1076.9,759.8c11.7-18.7,13.6-38.5,5.7-59.9c64-47.5,127.8-95,191.1-142c-9.2-10.5-18.1-20.6-27.3-31c-62.9,46.8-126.2,93.9-189.3,140.9c-4.1-1.7-7.3-3.4-10.8-4.5c-26-8.4-49.7-4.9-69.1,15c-19.2,19.7-24.3,43.4-14.5,69.2c8.8,23,26.5,36.8,50.7,40.2C1039.1,791.3,1060.6,782.7,1076.9,759.8z"/>
           <path fill="#FFFFFF" d="M1478.3,680.6c-31.5-52.5-63-105-94.3-157.2c23.6-36,12.8-68.3-6.4-87.3c-21.3-21-54.6-24.4-80.1-8.5c-25.2,15.7-36.5,45.5-27.9,73.7c9.9,32.4,36,47.4,78.8,44.9c17.3,28.6,34.9,57.7,52.4,86.6c17.7,29.2,35.5,58.4,52.8,87.1c12.4-7.5,23.7-14.3,35.4-21.4C1485.6,692.6,1482.3,687.2,1478.3,680.6z"/>
           <!-- Texte ALWAYS LINK + SOLUTIONS -->
           <g fill="#FFFFFF">
             <text x="1264" y="1120" font-family="Inter, Helvetica, Arial, sans-serif" font-size="178" font-weight="500" letter-spacing="18" text-anchor="middle">ALWAYS LINK</text>
-            <text x="1264" y="1240" font-family="Geist Mono, Menlo, monospace" font-size="78" font-weight="400" letter-spacing="30" text-anchor="middle">SOLUTIONS</text>
+            <text x="1264" y="1240" font-family="IBM Plex Mono, Menlo, monospace" font-size="78" font-weight="400" letter-spacing="30" text-anchor="middle">SOLUTIONS</text>
           </g>
         </svg>
-      </div>
-    </div>
-  </section>
-
-  <!-- =============== META BAR =============== -->
-  <div class="meta-bar">
-    <div class="cell">
-      <span class="k">Founded</span>
-      <span class="v">2026 <span>—</span> Bangkok</span>
-    </div>
-    <div class="cell">
-      <span class="k">Coverage</span>
-      <span class="v">Asie du <span>—</span> Sud-Est</span>
-    </div>
-    <div class="cell">
-      <span class="k">Stack</span>
-      <span class="v">Open <span>·</span> Self-hosted</span>
-    </div>
-    <div class="cell">
-      <span class="k">Focus</span>
-      <span class="v">SMEs <span>&amp;</span> Ops</span>
+</div>
     </div>
   </div>
-
-  <!-- =============== SERVICES =============== -->
-  <section class="services" id="services">
-    <div class="section-head">
-      <h2>Trois disciplines,<br><em>une seule logique d'ingénierie.</em></h2>
-      <span class="num">[02] — SERVICES</span>
+</section>
+<section id="services" class="container">
+  <div class="section-head">
+    <span class="eyebrow accent">&gt; SERVICES // 02</span>
+    <h2>Trois disciplines.<br><span class='accent'>Une seule logique d'ingénierie.</span></h2>
+    <p class="lead">On ne vend pas des fonctionnalités. On conçoit des systèmes que votre équipe peut opérer, monitorer et réparer sans nous.</p>
+  </div>
+  <div class="services-grid">
+    <article class="service-card">
+      <div class="service-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><circle cx="6.5" cy="7" r="0.8" fill="currentColor"/><circle cx="6.5" cy="17" r="0.8" fill="currentColor"/></svg></div>
+      <span class="service-idx">01 / Infra</span>
+      <h3>Infrastructure <span class='warm'>&amp;</span> DevOps</h3>
+      <p>Virtualisation Proxmox, conteneurisation Docker, réseau et stockage Linux. On conçoit des plateformes auto-hébergées stables, monitorées, et réparables par votre équipe — pas par nous.</p>
+      <div class="tag-row"><span class="tag">Proxmox</span><span class="tag">Docker</span><span class="tag">LXC</span><span class="tag">Linux</span><span class="tag">Nginx</span></div>
+      <a href="mailto:hello@alwayslinksolutions.com" class="service-link">Discuter du projet →</a>
+    </article>
+    <article class="service-card">
+      <div class="service-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l2.5 2.5M16.5 16.5L19 19M5 19l2.5-2.5M16.5 7.5L19 5"/><circle cx="12" cy="12" r="4"/></svg></div>
+      <span class="service-idx">02 / AI</span>
+      <h3>IA <span class='warm'>&amp;</span> Automation</h3>
+      <p>Pipelines RAG auto-hébergés, déploiement de LLM en interne, workflows n8n orchestrés autour de vos données. La valeur n'est pas dans le modèle — elle est dans l'intégration.</p>
+      <div class="tag-row"><span class="tag">RAG</span><span class="tag">LLM</span><span class="tag">n8n</span><span class="tag">Ollama</span><span class="tag">pgvector</span></div>
+      <a href="mailto:hello@alwayslinksolutions.com" class="service-link">Discuter du projet →</a>
+    </article>
+    <article class="service-card">
+      <div class="service-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="1.5"/><path d="M3 10h18M8 6V4h8v2"/></svg></div>
+      <span class="service-idx">03 / Biz</span>
+      <h3>Business <span class='warm'>Systems</span></h3>
+      <p>ERP Odoo, migrations Linux poste de travail, outils collaboratifs open-source. Des stacks métier qui couvrent le cycle commercial complet sans loyer logiciel indéfini.</p>
+      <div class="tag-row"><span class="tag">Odoo</span><span class="tag">OnlyOffice</span><span class="tag">Mailcow</span><span class="tag">Ubuntu</span><span class="tag">RustDesk</span></div>
+      <a href="mailto:hello@alwayslinksolutions.com" class="service-link">Discuter du projet →</a>
+    </article>
+  </div>
+</section>
+<section class="container live-ops">
+  <div class="section-head">
+    <span class="eyebrow accent">&gt; PRODUCTION // LIVE</span>
+    <h2>Ce qui tourne, là, maintenant.</h2>
+    <p class="lead">Un échantillon de ce qui tient — entre notre homelab et l'infra de nos clients.</p>
+  </div>
+  <div class="terminal" aria-hidden="true">
+    <div class="term-bar">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <span class="term-title">$ als status — production</span>
     </div>
+    <div class="term-body"><span class="prompt">$</span> systemctl is-active proxmox-cluster
+<span class="ok">active</span>
 
-    <div class="services-grid">
-      <article class="service">
-        <span class="idx">01 / Infra</span>
-        <h3>Infrastructure <em>&amp;</em> DevOps</h3>
-        <p>Virtualisation Proxmox, conteneurisation Docker, réseau et stockage Linux. On conçoit des plateformes auto-hébergées stables, monitorées, et réparables par votre équipe — pas par nous.</p>
-        <div class="tags">
-          <span class="tag">Proxmox</span>
-          <span class="tag">Docker</span>
-          <span class="tag">LXC</span>
-          <span class="tag">Linux</span>
-          <span class="tag">Nginx</span>
-        </div>
-      </article>
+<span class="prompt">$</span> docker ps --format '{{.Names}}' | wc -l
+<span class="ok">42</span>  <span class="mute"># containers running</span>
 
-      <article class="service">
-        <span class="idx">02 / AI</span>
-        <h3>AI <em>&amp;</em> Automation</h3>
-        <p>Pipelines RAG auto-hébergés, déploiement de LLM en interne, workflows n8n orchestrés autour de vos données. La valeur n'est pas dans le modèle — elle est dans l'intégration.</p>
-        <div class="tags">
-          <span class="tag">RAG</span>
-          <span class="tag">LLM</span>
-          <span class="tag">n8n</span>
-          <span class="tag">Ollama</span>
-          <span class="tag">pgvector</span>
-        </div>
-      </article>
+<span class="prompt">$</span> ollama ps
+<span class="mute">NAME           SIZE     PROCESSOR</span>
+qwen3.6:35b    23 GB    <span class="ok">100% GPU</span>
 
-      <article class="service">
-        <span class="idx">03 / Biz</span>
-        <h3>Business <em>Systems</em></h3>
-        <p>ERP Odoo, migrations Linux poste de travail, outils collaboratifs open-source. Des stacks métier qui couvrent le cycle commercial complet sans loyer logiciel indéfini.</p>
-        <div class="tags">
-          <span class="tag">Odoo</span>
-          <span class="tag">OnlyOffice</span>
-          <span class="tag">Mailcow</span>
-          <span class="tag">Ubuntu</span>
-          <span class="tag">RustDesk</span>
-        </div>
-      </article>
+<span class="prompt">$</span> curl -s alwayslinksolutions.com | grep '&lt;title&gt;'
+<span class="warn">↳ Always Link Solutions</span>
+
+<span class="prompt">$</span> als status
+<span class="ok">→ all systems holding.</span></div>
+  </div>
+</section>
+<section id="philosophy" class="philosophy container">
+  <div class="philosophy-card">
+    <span class="eyebrow accent">&gt; PHILOSOPHIE // 03</span>
+    <h2 class="philosophy-h2">La production avant les slides.</h2>
+    <blockquote class="philosophy-quote">Une infrastructure bien pensée ne se voit pas. <span class='warm-em'>Elle tient.</span> Elle ne produit pas d'incident le vendredi soir, ne se rappelle à personne le lundi matin. Tout notre métier est construit autour de cette discrétion.</blockquote>
+    <div class="philosophy-sig">— Olivier Magnier · Fondateur</div>
+  </div>
+</section>
+<section id="stack" class="container">
+  <div class="section-head">
+    <span class="eyebrow accent">&gt; STACK // 04</span>
+    <h2>Le stack qu'on opère.</h2>
+    <p class="lead">Open-source d'abord, vendor-lock jamais. Chaque outil ci-dessous tourne dans notre propre infra et chez chacun de nos clients.</p>
+  </div>
+  <div class="stack-grid">
+    <div class="stack-cell"><img src="/assets/logos/proxmox.svg" alt="Proxmox" loading="lazy" width="32" height="32"><span>Proxmox</span></div>
+    <div class="stack-cell"><img src="/assets/logos/docker.svg" alt="Docker" loading="lazy" width="32" height="32"><span>Docker</span></div>
+    <div class="stack-cell"><img src="/assets/logos/kubernetes.svg" alt="Kubernetes" loading="lazy" width="32" height="32"><span>Kubernetes</span></div>
+    <div class="stack-cell"><img src="/assets/logos/linux.svg" alt="Linux" loading="lazy" width="32" height="32"><span>Linux</span></div>
+    <div class="stack-cell"><img src="/assets/logos/ubuntu.svg" alt="Ubuntu" loading="lazy" width="32" height="32"><span>Ubuntu</span></div>
+    <div class="stack-cell"><img src="/assets/logos/python.svg" alt="Python" loading="lazy" width="32" height="32"><span>Python</span></div>
+    <div class="stack-cell"><img src="/assets/logos/fastapi.svg" alt="FastAPI" loading="lazy" width="32" height="32"><span>FastAPI</span></div>
+    <div class="stack-cell"><img src="/assets/logos/typescript.svg" alt="TypeScript" loading="lazy" width="32" height="32"><span>TypeScript</span></div>
+    <div class="stack-cell"><img src="/assets/logos/node.svg" alt="Node.js" loading="lazy" width="32" height="32"><span>Node.js</span></div>
+    <div class="stack-cell"><img src="/assets/logos/bun.svg" alt="Bun" loading="lazy" width="32" height="32"><span>Bun</span></div>
+    <div class="stack-cell"><img src="/assets/logos/rust.svg" alt="Rust" loading="lazy" width="32" height="32"><span>Rust</span></div>
+    <div class="stack-cell"><img src="/assets/logos/go.svg" alt="Go" loading="lazy" width="32" height="32"><span>Go</span></div>
+    <div class="stack-cell"><img src="/assets/logos/postgresql.svg" alt="PostgreSQL" loading="lazy" width="32" height="32"><span>PostgreSQL</span></div>
+    <div class="stack-cell"><img src="/assets/logos/redis.svg" alt="Redis" loading="lazy" width="32" height="32"><span>Redis</span></div>
+    <div class="stack-cell"><img src="/assets/logos/neo4j.svg" alt="Neo4j" loading="lazy" width="32" height="32"><span>Neo4j</span></div>
+    <div class="stack-cell"><img src="/assets/logos/chromadb.svg" alt="ChromaDB" loading="lazy" width="32" height="32"><span>ChromaDB</span></div>
+    <div class="stack-cell"><img src="/assets/logos/ollama.svg" alt="Ollama" loading="lazy" width="32" height="32"><span>Ollama</span></div>
+    <div class="stack-cell"><img src="/assets/logos/claude-ai.svg" alt="Claude" loading="lazy" width="32" height="32"><span>Claude</span></div>
+    <div class="stack-cell"><img src="/assets/logos/openai.svg" alt="OpenAI" loading="lazy" width="32" height="32"><span>OpenAI</span></div>
+    <div class="stack-cell"><img src="/assets/logos/huggingface.svg" alt="HuggingFace" loading="lazy" width="32" height="32"><span>HuggingFace</span></div>
+    <div class="stack-cell"><img src="/assets/logos/langchain.svg" alt="LangChain" loading="lazy" width="32" height="32"><span>LangChain</span></div>
+    <div class="stack-cell"><img src="/assets/logos/n8n.svg" alt="n8n" loading="lazy" width="32" height="32"><span>n8n</span></div>
+    <div class="stack-cell"><img src="/assets/logos/odoo.svg" alt="Odoo" loading="lazy" width="32" height="32"><span>Odoo</span></div>
+    <div class="stack-cell"><img src="/assets/logos/mailcow.svg" alt="Mailcow" loading="lazy" width="32" height="32"><span>Mailcow</span></div>
+    <div class="stack-cell"><img src="/assets/logos/nextcloud.svg" alt="Nextcloud" loading="lazy" width="32" height="32"><span>Nextcloud</span></div>
+    <div class="stack-cell"><img src="/assets/logos/onlyoffice.svg" alt="OnlyOffice" loading="lazy" width="32" height="32"><span>OnlyOffice</span></div>
+    <div class="stack-cell"><img src="/assets/logos/cloudflare.svg" alt="Cloudflare" loading="lazy" width="32" height="32"><span>Cloudflare</span></div>
+    <div class="stack-cell"><img src="/assets/logos/nginx.svg" alt="Nginx" loading="lazy" width="32" height="32"><span>Nginx</span></div>
+    <div class="stack-cell"><img src="/assets/logos/tailscale.svg" alt="Tailscale" loading="lazy" width="32" height="32"><span>Tailscale</span></div>
+    <div class="stack-cell"><img src="/assets/logos/opnsense.svg" alt="OPNsense" loading="lazy" width="32" height="32"><span>OPNsense</span></div>
+    <div class="stack-cell"><img src="/assets/logos/github.svg" alt="GitHub" loading="lazy" width="32" height="32"><span>GitHub</span></div>
+    <div class="stack-cell"><img src="/assets/logos/obsidian.svg" alt="Obsidian" loading="lazy" width="32" height="32"><span>Obsidian</span></div>
+    <div class="stack-cell"><img src="/assets/logos/home-assistant.svg" alt="Home Assistant" loading="lazy" width="32" height="32"><span>Home Assistant</span></div>
+    <div class="stack-cell"><img src="/assets/logos/jellyfin.svg" alt="Jellyfin" loading="lazy" width="32" height="32"><span>Jellyfin</span></div>
+    <div class="stack-cell"><img src="/assets/logos/terraform.svg" alt="Terraform" loading="lazy" width="32" height="32"><span>Terraform</span></div>
+    <div class="stack-cell"><img src="/assets/logos/ansible.svg" alt="Ansible" loading="lazy" width="32" height="32"><span>Ansible</span></div>
+  </div>
+</section>
+<section class="container">
+  <div class="cta-band">
+    <span class="eyebrow accent">&gt; PRÊT ?</span>
+    <h2>Apportez-nous un problème.<br><span class='accent'>On vous renvoie un système.</span></h2>
+    <a href="mailto:hello@alwayslinksolutions.com" class="btn btn-primary">Parlons-en →</a>
+  </div>
+</section>
+</main>
+<footer id="contact" class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/fr/" class="brand">
+          <img src="/als-mark.svg" alt="ALS mark" width="28" height="28">
+          <span class="brand-name">Always Link Solutions</span>
+        </a>
+        <p class="footer-tagline">Systèmes business auto-hébergés pour PME en Asie du Sud-Est.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Infrastructure & DevOps</a></li>
+          <li><a href="#services">IA & Automation</a></li>
+          <li><a href="#services">Business Systems</a></li>
+          <li><a href="#stack">Stack</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Entreprise</h4>
+        <ul>
+          <li><a href="#philosophy">Philosophie</a></li>
+          <li><a href="mailto:hello@alwayslinksolutions.com">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Légal</h4>
+        <ul>
+          <li><a href="/en/">EN</a> · <a href="/fr/">FR</a> · <a href="/th/">TH</a></li>
+        </ul>
+      </div>
     </div>
-  </section>
-
-  <!-- =============== QUOTE =============== -->
-  <section class="quote-block" id="philosophy">
-    <span class="label">[03] — Philosophie</span>
-    <div>
-      <blockquote>
-        Une infrastructure bien pensée ne se voit pas. <em>Elle tient.</em> Elle ne produit pas d'incident le vendredi soir, ne se rappelle à personne le lundi matin. Tout notre métier est construit autour de cette discrétion.
-      </blockquote>
-      <div class="sig">Olivier Magnier · Founder</div>
+    <div class="footer-bottom">
+      <span>© 2026 Always Link Solutions · Reg. 0105569079253 · Bangkok, Thaïlande</span>
+      <span>Conçu à Bangkok · mis à jour 2026-05-05</span>
     </div>
-  </section>
-
-  <!-- =============== STACK =============== -->
-  <section class="stack" id="stack">
-    <div class="section-head">
-      <h2>Le stack qu'on opère.</h2>
-      <span class="num">[04] — Stack</span>
-    </div>
-    <div class="stack-grid">
-        <div class="stack-cell"><img src="/assets/logos/proxmox.svg" alt="Proxmox" loading="lazy" /><span>Proxmox</span></div>
-        <div class="stack-cell"><img src="/assets/logos/docker.svg" alt="Docker" loading="lazy" /><span>Docker</span></div>
-        <div class="stack-cell"><img src="/assets/logos/kubernetes.svg" alt="Kubernetes" loading="lazy" /><span>Kubernetes</span></div>
-        <div class="stack-cell"><img src="/assets/logos/linux.svg" alt="Linux" loading="lazy" /><span>Linux</span></div>
-        <div class="stack-cell"><img src="/assets/logos/ubuntu.svg" alt="Ubuntu" loading="lazy" /><span>Ubuntu</span></div>
-        <div class="stack-cell"><img src="/assets/logos/python.svg" alt="Python" loading="lazy" /><span>Python</span></div>
-        <div class="stack-cell"><img src="/assets/logos/fastapi.svg" alt="FastAPI" loading="lazy" /><span>FastAPI</span></div>
-        <div class="stack-cell"><img src="/assets/logos/typescript.svg" alt="TypeScript" loading="lazy" /><span>TypeScript</span></div>
-        <div class="stack-cell"><img src="/assets/logos/node.svg" alt="Node.js" loading="lazy" /><span>Node.js</span></div>
-        <div class="stack-cell"><img src="/assets/logos/bun.svg" alt="Bun" loading="lazy" /><span>Bun</span></div>
-        <div class="stack-cell"><img src="/assets/logos/rust.svg" alt="Rust" loading="lazy" /><span>Rust</span></div>
-        <div class="stack-cell"><img src="/assets/logos/go.svg" alt="Go" loading="lazy" /><span>Go</span></div>
-        <div class="stack-cell"><img src="/assets/logos/postgresql.svg" alt="PostgreSQL" loading="lazy" /><span>PostgreSQL</span></div>
-        <div class="stack-cell"><img src="/assets/logos/redis.svg" alt="Redis" loading="lazy" /><span>Redis</span></div>
-        <div class="stack-cell"><img src="/assets/logos/neo4j.svg" alt="Neo4j" loading="lazy" /><span>Neo4j</span></div>
-        <div class="stack-cell"><img src="/assets/logos/chromadb.svg" alt="ChromaDB" loading="lazy" /><span>ChromaDB</span></div>
-        <div class="stack-cell"><img src="/assets/logos/ollama.svg" alt="Ollama" loading="lazy" /><span>Ollama</span></div>
-        <div class="stack-cell"><img src="/assets/logos/claude-ai.svg" alt="Claude" loading="lazy" /><span>Claude</span></div>
-        <div class="stack-cell"><img src="/assets/logos/openai.svg" alt="OpenAI" loading="lazy" /><span>OpenAI</span></div>
-        <div class="stack-cell"><img src="/assets/logos/huggingface.svg" alt="HuggingFace" loading="lazy" /><span>HuggingFace</span></div>
-        <div class="stack-cell"><img src="/assets/logos/langchain.svg" alt="LangChain" loading="lazy" /><span>LangChain</span></div>
-        <div class="stack-cell"><img src="/assets/logos/n8n.svg" alt="n8n" loading="lazy" /><span>n8n</span></div>
-        <div class="stack-cell"><img src="/assets/logos/odoo.svg" alt="Odoo" loading="lazy" /><span>Odoo</span></div>
-        <div class="stack-cell"><img src="/assets/logos/mailcow.svg" alt="Mailcow" loading="lazy" /><span>Mailcow</span></div>
-        <div class="stack-cell"><img src="/assets/logos/nextcloud.svg" alt="Nextcloud" loading="lazy" /><span>Nextcloud</span></div>
-        <div class="stack-cell"><img src="/assets/logos/onlyoffice.svg" alt="OnlyOffice" loading="lazy" /><span>OnlyOffice</span></div>
-        <div class="stack-cell"><img src="/assets/logos/cloudflare.svg" alt="Cloudflare" loading="lazy" /><span>Cloudflare</span></div>
-        <div class="stack-cell"><img src="/assets/logos/nginx.svg" alt="Nginx" loading="lazy" /><span>Nginx</span></div>
-        <div class="stack-cell"><img src="/assets/logos/tailscale.svg" alt="Tailscale" loading="lazy" /><span>Tailscale</span></div>
-        <div class="stack-cell"><img src="/assets/logos/opnsense.svg" alt="OPNsense" loading="lazy" /><span>OPNsense</span></div>
-        <div class="stack-cell"><img src="/assets/logos/github.svg" alt="GitHub" loading="lazy" /><span>GitHub</span></div>
-        <div class="stack-cell"><img src="/assets/logos/obsidian.svg" alt="Obsidian" loading="lazy" /><span>Obsidian</span></div>
-        <div class="stack-cell"><img src="/assets/logos/home-assistant.svg" alt="Home Assistant" loading="lazy" /><span>Home Assistant</span></div>
-        <div class="stack-cell"><img src="/assets/logos/jellyfin.svg" alt="Jellyfin" loading="lazy" /><span>Jellyfin</span></div>
-        <div class="stack-cell"><img src="/assets/logos/terraform.svg" alt="Terraform" loading="lazy" /><span>Terraform</span></div>
-        <div class="stack-cell"><img src="/assets/logos/ansible.svg" alt="Ansible" loading="lazy" /><span>Ansible</span></div>
-    </div>
-  </section>
-
-  <!-- =============== FOOTER =============== -->
-  <footer id="contact">
-    <div class="brand-block">
-      <svg viewBox="0 0 2528 900" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path fill="#F2F3F5" d="M1303.6,772.9c47.3,13.6,94.7,27.3,142.1,40.6c6.5,1.8,10.6,4.6,14.1,10.8c15.8,28.6,49.9,40.8,80,29.2c29.6-11.4,46.9-44.3,39.9-75.6c-5.8-25.7-28.4-46.8-53.8-50c-28.5-3.6-55.3,10.6-67.6,36c-1.6,3.2-3,6.6-4.6,10.2c-2-0.4-3.6-0.6-5.1-1c-40.3-11.5-80.6-23-120.9-34.6c-52.8-15.1-105.6-30.2-158.3-45.5c-4.6-1.3-8.1-1.2-11.9,2c-6.9,5.7-14.4,10.8-21.6,16.2c-3.9,2.9-7.8,5.8-13,9.6C1183.9,738.5,1243,755.5,1303.6,772.9z M1076.9,759.8c11.7-18.7,13.6-38.5,5.7-59.9c64-47.5,127.8-95,191.1-142c-9.2-10.5-18.1-20.6-27.3-31c-62.9,46.8-126.2,93.9-189.3,140.9c-4.1-1.7-7.3-3.4-10.8-4.5c-26-8.4-49.7-4.9-69.1,15c-19.2,19.7-24.3,43.4-14.5,69.2c8.8,23,26.5,36.8,50.7,40.2C1039.1,791.3,1060.6,782.7,1076.9,759.8z M1478.3,680.6c-31.5-52.5-63-105-94.3-157.2c23.6-36,12.8-68.3-6.4-87.3c-21.3-21-54.6-24.4-80.1-8.5c-25.2,15.7-36.5,45.5-27.9,73.7c9.9,32.4,36,47.4,78.8,44.9c17.3,28.6,34.9,57.7,52.4,86.6c17.7,29.2,35.5,58.4,52.8,87.1c12.4-7.5,23.7-14.3,35.4-21.4C1485.6,692.6,1482.3,687.2,1478.3,680.6z"/>
-      </svg>
-      <div class="tagline">Infrastructure patiente, automatisation honnête. Pour PME qui grandissent en Asie du Sud-Est.</div>
-    </div>
-
-    <div>
-      <h4>Contact</h4>
-      <ul>
-        <li><a href="mailto:hello@alwayslinksolutions.com">hello@alwayslinksolutions.com</a></li>
-        <li><a href="#">+66 (0) xx xxx xxxx</a></li>
-        <li><a href="#">Bangkok</a></li>
-      </ul>
-    </div>
-
-    <div>
-      <h4>Services</h4>
-      <ul>
-        <li><a href="#">Infrastructure</a></li>
-        <li><a href="#">AI &amp; RAG</a></li>
-        <li><a href="#">ERP &amp; Odoo</a></li>
-        <li><a href="#">Migration Linux</a></li>
-      </ul>
-    </div>
-
-    <div>
-      <h4>Ressources</h4>
-      <ul>
-        <li><a href="#">Blog</a></li>
-        <li><a href="#">Open Source</a></li>
-        <li><a href="#">Case studies</a></li>
-      </ul>
-    </div>
-  </footer>
-
-</div>
-
-<div class="footer-bottom">
-  <span>© 2026 ALWAYS LINK SOLUTIONS CO., LTD.</span>
-  <span>CRAFTED IN BKK — 13.7563°N, 100.5018°E</span>
-</div>
-
+  </div>
+</footer>
 </body>
 </html>
