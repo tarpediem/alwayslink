@@ -59,7 +59,7 @@
         </xpath>
 
         <!-- Style the line table. -->
-        <xpath expr="//table[contains(@class, 'o_main_table')]" position="attributes">
+        <xpath expr="//table[hasclass('o_main_table')]" position="attributes">
             <attribute name="class" add="als-report__lines" separator=" "/>
         </xpath>
 
