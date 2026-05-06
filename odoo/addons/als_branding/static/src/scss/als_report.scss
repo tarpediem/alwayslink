@@ -59,29 +59,38 @@ $als-font-stack: "Montserrat", "Inter", "Helvetica Neue", "Helvetica", Arial, sa
         max-width: 320px;
     }
 }
-.als-report__brand-info {
+.als-report__brand-address-block,
+.als-report__brand-contact-block {
     flex: 0 0 auto;
-    text-align: right;
-    color: $als-grey;
     font-size: 8.5pt;
-    line-height: 1.5;
-    max-width: 60%;
+    color: $als-grey;
+    line-height: 1.45;
+    text-align: left;
+    min-width: 0;
 
-    .als-report__brand-address {
-        font-size: 8.5pt;
-        color: $als-grey;
+    > div {
+        margin: 0;
     }
-    .als-report__brand-contact {
-        font-size: 8.5pt;
-        color: $als-grey;
-        margin-top: 2px;
-    }
-    .als-report__brand-vat {
-        font-size: 8.5pt;
-        color: $als-grey;
-        margin-top: 2px;
-        font-weight: 500;
-    }
+}
+.als-report__brand-address-block {
+    margin-left: auto;
+    padding-right: 18px;
+    border-right: 1px solid $als-grey-line;
+    margin-right: 18px;
+}
+.als-report__brand-block-title {
+    font-family: $als-font-stack;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 7.5pt;
+    color: $als-navy;
+    margin-bottom: 3px;
+}
+.als-report__brand-vat {
+    margin-top: 2px;
+    font-weight: 500;
+    color: $als-grey;
 }
 
 // ---- Standard address_layout + h2 title (used by non-sale reports) ----
