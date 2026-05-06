@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--
+            On install, push ALS-correct primary / secondary colors to the
+            main company so the report.layout SCSS that Odoo injects per
+            company picks navy / cyan instead of the previous loud cyan.
+            noupdate=1 lets Olivier override later via the UI without being
+            reset on module upgrade.
+        -->
+        <function model="res.company" name="write">
+            <value eval="[1]"/>
+            <value eval="{
+                'primary_color': '#1DA7E0',
+                'secondary_color': '#0F1D31',
+                'paperformat_id': ref('als_branding.paperformat_als_a4'),
+            }"/>
+        </function>
+    </data>
+</odoo>

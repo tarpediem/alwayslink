@@ -29,10 +29,12 @@ Includes:
         "account",
     ],
     "data": [
+        "data/paperformat_data.xml",
         "views/external_layout.xml",
         "views/report_saleorder.xml",
         "views/res_company_views.xml",
         "data/report_layout_data.xml",
+        "data/res_company_data.xml",
     ],
     "assets": {
         "web.report_assets_common": [

@@ -48,7 +48,11 @@ $als-font-stack: "Montserrat", "Inter", "Helvetica Neue", Arial, sans-serif;
     .als-report__topbar {
         height: 4px;
         background: $als-cyan;
-        margin: -8px -8px 12px -8px;
+        margin: -2px -8px 0 -8px;
+    }
+
+    .als-report__brand-row {
+        margin-top: 10px;
     }
 
     .als-report__brand {

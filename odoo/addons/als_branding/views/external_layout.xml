@@ -6,9 +6,9 @@
         Wraps every printable Odoo document with the ALS brand identity.
     -->
     <template id="external_layout_als" name="ALS — Always Link">
-        <div class="header o_company_#{company.id}_layout als-report__header">
+        <div t-attf-class="header o_company_#{company.id}_layout als-report__header">
             <div class="als-report__topbar"/>
-            <div class="row align-items-end" style="margin-top: 10px;">
+            <div class="row align-items-end als-report__brand-row">
                 <div class="col-7 als-report__brand">
                     <img t-if="company.logo"
                          t-att-src="image_data_uri(company.logo)"
@@ -43,7 +43,7 @@
             <t t-out="0"/>
         </div>
 
-        <div class="footer als-report__footer">
+        <div t-attf-class="footer o_company_#{company.id}_layout als-report__footer">
             <div class="als-report__footer-band">
                 <div class="row gx-4">
                     <div class="col-4 als-report__footer-col">
