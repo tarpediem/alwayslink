@@ -165,7 +165,29 @@ Update flow: `cd /opt/als/alwayslink && git pull && systemctl restart odoo` then
 - Multi-language report copy (TH/EN) → out of scope, current Odoo i18n covers it.
 - Logo of the ALS company itself → Olivier should upload `design/brand/logo/als-logo.svg` to `Settings > Companies > Logo` if not already done.
 
-## 10. Rollback plan
+## 10. Deployment gotcha — wkhtmltopdf patched-qt
+
+The `wkhtmltopdf` package shipped with Debian 12 (`0.12.6-2+b1`) is the
+**unpatched-qt** build. It silently ignores `--header-html` and
+`--footer-html`, so any custom external_layout's wkhtmltopdf header /
+footer divs **will not render in the PDF**. The body PDF page renders
+fine; the per-page header and footer simply never appear.
+
+Fix: install the upstream wkhtmltox build with patched Qt:
+
+```bash
+curl -sSL -o /tmp/wkhtmltox.deb \
+  https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.bookworm_amd64.deb
+apt install -y /tmp/wkhtmltox.deb
+# this removes /usr/bin/wkhtmltopdf and installs /usr/local/bin/wkhtmltopdf
+wkhtmltopdf --version  # should print "0.12.6.1 (with patched qt)"
+systemctl restart odoo
+```
+
+After this, header/footer divs render correctly. Detection one-liner:
+`wkhtmltopdf --version 2>&1 | grep -q "patched qt" && echo OK || echo BAD`.
+
+## 11. Rollback plan
 
 If the module misbehaves after install:
 
