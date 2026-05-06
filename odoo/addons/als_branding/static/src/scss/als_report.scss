@@ -39,49 +39,41 @@ $als-font-stack: "Montserrat", "Inter", "Helvetica Neue", "Helvetica", Arial, sa
     }
 }
 
-// ---- Brand block (the big logo + company info card at top of body) ----
+// ---- Brand block (the big logo + compact contact info at top of body) ----
 .als-report__brand {
     border-top: 4px solid $als-cyan;
     padding-top: 14px;
-    margin: 0 0 18px 0;
+    margin: 0 0 16px 0;
 }
 .als-report__brand-row {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: space-between;
     gap: 18px;
 }
 .als-report__brand-logo {
     flex: 0 0 auto;
 
     img {
-        max-height: 56px;
-        max-width: 220px;
+        max-height: 90px;
+        max-width: 320px;
     }
 }
 .als-report__brand-info {
-    flex: 1 1 auto;
+    flex: 0 0 auto;
+    text-align: right;
     color: $als-grey;
-    font-size: 9pt;
-    line-height: 1.4;
+    font-size: 8.5pt;
+    line-height: 1.5;
 
-    .als-report__brand-name {
-        font-family: $als-font-stack;
-        font-weight: 700;
-        font-size: 13pt;
-        color: $als-navy;
-        letter-spacing: 0.02em;
-        margin-bottom: 2px;
-    }
-    .als-report__brand-address {
-        font-size: 9pt;
-        color: $als-grey;
-        > div, p { margin: 0 !important; }
-    }
     .als-report__brand-contact,
     .als-report__brand-vat {
         font-size: 8.5pt;
         color: $als-grey;
+    }
+    .als-report__brand-vat {
         margin-top: 2px;
+        font-weight: 500;
     }
 }
 
