@@ -65,13 +65,20 @@ $als-font-stack: "Montserrat", "Inter", "Helvetica Neue", "Helvetica", Arial, sa
     color: $als-grey;
     font-size: 8.5pt;
     line-height: 1.5;
+    max-width: 60%;
 
-    .als-report__brand-contact,
-    .als-report__brand-vat {
+    .als-report__brand-address {
         font-size: 8.5pt;
         color: $als-grey;
     }
+    .als-report__brand-contact {
+        font-size: 8.5pt;
+        color: $als-grey;
+        margin-top: 2px;
+    }
     .als-report__brand-vat {
+        font-size: 8.5pt;
+        color: $als-grey;
         margin-top: 2px;
         font-weight: 500;
     }
