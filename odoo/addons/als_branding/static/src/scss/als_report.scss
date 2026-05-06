@@ -1,7 +1,7 @@
 // ALS branded report styles.
 // Loaded via web.report_assets_common; rendered through wkhtmltopdf.
-
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+// NB: do NOT @import Google Fonts here — wkhtmltopdf has unreliable
+// remote fetches and falls back gracefully to the system font stack.
 
 $als-navy:       #0F1D31;
 $als-navy-dark:  #0A1324;
@@ -14,9 +14,9 @@ $als-grey-soft:  #F5F7FA;
 $als-grey-line:  #E5E7EB;
 $als-white:      #FFFFFF;
 
-$als-font-stack: "Montserrat", "Inter", "Helvetica Neue", Arial, sans-serif;
+$als-font-stack: "Montserrat", "Inter", "Helvetica Neue", "Helvetica", Arial, sans-serif;
 
-// ---- Layout (the .article wrap from external_layout_als) ----
+// ---- Body wrap (the .article from external_layout_als) ----
 .als-report {
     font-family: $als-font-stack;
     font-size: 10pt;
@@ -39,54 +39,49 @@ $als-font-stack: "Montserrat", "Inter", "Helvetica Neue", Arial, sans-serif;
     }
 }
 
-// ---- Header ----
-.als-report__header {
-    font-family: $als-font-stack;
-    color: $als-navy;
-    padding-bottom: 8px;
+// ---- Brand block (the big logo + company info card at top of body) ----
+.als-report__brand {
+    border-top: 4px solid $als-cyan;
+    padding-top: 14px;
+    margin: 0 0 18px 0;
+}
+.als-report__brand-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+}
+.als-report__brand-logo {
+    flex: 0 0 auto;
 
-    .als-report__topbar {
-        height: 4px;
-        background: $als-cyan;
-        margin: -2px -8px 0 -8px;
+    img {
+        max-height: 56px;
+        max-width: 220px;
     }
+}
+.als-report__brand-info {
+    flex: 1 1 auto;
+    color: $als-grey;
+    font-size: 9pt;
+    line-height: 1.4;
 
-    .als-report__brand-row {
-        margin-top: 10px;
+    .als-report__brand-name {
+        font-family: $als-font-stack;
+        font-weight: 700;
+        font-size: 13pt;
+        color: $als-navy;
+        letter-spacing: 0.02em;
+        margin-bottom: 2px;
     }
-
-    .als-report__brand {
-        .als-report__logo {
-            max-height: 40px;
-            max-width: 200px;
-            margin-bottom: 8px;
-        }
-        .als-report__company-name {
-            font-weight: 700;
-            font-size: 12pt;
-            color: $als-navy;
-            letter-spacing: 0.02em;
-        }
-        .als-report__company-address {
-            font-size: 8.5pt;
-            color: $als-grey;
-            line-height: 1.35;
-            margin-top: 2px;
-
-            > div, p {
-                margin: 0 !important;
-            }
-        }
-        .als-report__company-vat {
-            font-size: 8.5pt;
-            color: $als-grey;
-            margin-top: 4px;
-        }
+    .als-report__brand-address {
+        font-size: 9pt;
+        color: $als-grey;
+        > div, p { margin: 0 !important; }
     }
-
-    .als-report__hairline {
-        border-bottom: 1px solid $als-grey-line;
-        margin-top: 12px;
+    .als-report__brand-contact,
+    .als-report__brand-vat {
+        font-size: 8.5pt;
+        color: $als-grey;
+        margin-top: 2px;
     }
 }
 
@@ -95,15 +90,10 @@ $als-font-stack: "Montserrat", "Inter", "Helvetica Neue", Arial, sans-serif;
     .address {
         font-size: 9.5pt;
         color: $als-navy;
-        margin: 18px 0 14px 0;
+        margin: 6px 0 14px 0;
 
-        > div, p {
-            margin: 0 !important;
-        }
-        strong {
-            color: $als-navy;
-            font-weight: 700;
-        }
+        > div, p { margin: 0 !important; }
+        strong { color: $als-navy; font-weight: 700; }
     }
     .als-report__layout-title {
         font-family: $als-font-stack;
@@ -117,9 +107,9 @@ $als-font-stack: "Montserrat", "Inter", "Helvetica Neue", Arial, sans-serif;
     }
 }
 
-// ---- Title block (per-document) ----
+// ---- Title block (per-document, used by sale order override) ----
 .als-report__title-block {
-    margin: 18px 0 20px 0;
+    margin: 6px 0 20px 0;
 }
 .als-report__title-row {
     display: flex;
@@ -176,9 +166,7 @@ $als-font-stack: "Montserrat", "Inter", "Helvetica Neue", Arial, sans-serif;
             font-weight: 700;
             margin-bottom: 2px;
         }
-        > div, p {
-            margin: 0 !important;
-        }
+        > div, p { margin: 0 !important; }
     }
 }
 
@@ -262,7 +250,6 @@ $als-font-stack: "Montserrat", "Inter", "Helvetica Neue", Arial, sans-serif;
         white-space: nowrap;
     }
 
-    // The total table block (Odoo wraps totals in tfoot/total tables)
     tfoot, tr.o_total {
         td {
             border-top: 1px solid $als-grey-line !important;
@@ -271,21 +258,7 @@ $als-font-stack: "Montserrat", "Inter", "Helvetica Neue", Arial, sans-serif;
     }
 }
 
-// Odoo's separate totals table sits next to the lines table.
-.o_total_table, .o_table_total {
-    .total {
-        background: $als-cyan-soft;
-        border-left: 4px solid $als-cyan;
-    }
-    td {
-        font-family: $als-font-stack;
-    }
-    .o_subtotal, td:has(strong) {
-        color: $als-navy;
-    }
-}
-
-// Bootstrap-injected total row in the line table (Odoo class)
+// Odoo's primary_color-driven Total row — make sure ours is on-brand
 .o_has_total_table .o_total td {
     background: $als-cyan-soft !important;
     border-top: 2px solid $als-cyan !important;
@@ -349,54 +322,5 @@ $als-font-stack: "Montserrat", "Inter", "Helvetica Neue", Arial, sans-serif;
     }
     .als-report__terms-body {
         p { margin: 0 0 4px 0 !important; }
-    }
-}
-
-// ---- Footer ----
-.als-report__footer {
-    font-family: $als-font-stack;
-    font-size: 8pt;
-    color: $als-white;
-
-    .als-report__footer-band {
-        background: $als-navy;
-        color: $als-white;
-        margin: 0 -8px;
-        padding: 12px 16px 8px 16px;
-    }
-
-    .als-report__footer-col {
-        color: $als-white;
-        line-height: 1.4;
-    }
-    .als-report__footer-title {
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-        font-size: 7.5pt;
-        color: $als-cyan;
-        margin-bottom: 4px;
-    }
-    .als-report__footer-body {
-        font-size: 8pt;
-        color: rgba($als-white, 0.85);
-
-        > div, p {
-            margin: 0 !important;
-            color: rgba($als-white, 0.85);
-        }
-    }
-
-    .als-report__footer-meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 8px;
-        padding-top: 6px;
-        border-top: 1px solid rgba($als-white, 0.15);
-        font-size: 7.5pt;
-        color: rgba($als-white, 0.7);
-
-        p { margin: 0 !important; color: inherit; }
     }
 }
