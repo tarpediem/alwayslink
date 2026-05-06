@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_company_form_als" model="ir.ui.view">
+        <field name="name">res.company.form.als.branding</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_information']" position="after">
+                <page string="ALS Branding" name="als_branding">
+                    <group>
+                        <group string="Footer banking column">
+                            <field name="als_bank_info"
+                                   placeholder="Bangkok Bank Co., Ltd.&#10;Account: 123-4-56789-0&#10;SWIFT: BKKBTHBK"
+                                   nolabel="1"/>
+                        </group>
+                        <group string="Quotation signature block">
+                            <field name="als_signatory_name"
+                                   placeholder="Olivier Magnier"/>
+                            <field name="als_signatory_title"
+                                   placeholder="Managing Director"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

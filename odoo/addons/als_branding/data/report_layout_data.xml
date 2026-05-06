@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--
+            Register the ALS layout in Settings > Companies > Document Layout.
+            sequence=1 → ALS appears first in the picker.
+        -->
+        <record id="report_layout_als" model="report.layout">
+            <field name="name">Always Link</field>
+            <field name="sequence">1</field>
+            <field name="view_id" ref="als_branding.external_layout_als"/>
+        </record>
+    </data>
+</odoo>

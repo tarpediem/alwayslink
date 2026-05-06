@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        ALS branded external layout.
+        Selectable in Settings > Companies > Document Layout.
+        Wraps every printable Odoo document with the ALS brand identity.
+    -->
+    <template id="external_layout_als" name="ALS — Always Link">
+        <div class="header o_company_#{company.id}_layout als-report__header">
+            <div class="als-report__topbar"/>
+            <div class="row align-items-end" style="margin-top: 10px;">
+                <div class="col-7 als-report__brand">
+                    <img t-if="company.logo"
+                         t-att-src="image_data_uri(company.logo)"
+                         class="als-report__logo"
+                         alt="Logo"/>
+                    <div class="als-report__company-name">
+                        <span t-field="company.name"/>
+                    </div>
+                    <div class="als-report__company-address text-muted">
+                        <span t-field="company.partner_id"
+                              t-options='{"widget": "contact", "fields": ["address", "phone"], "no_marker": True, "phone_icons": False}'/>
+                    </div>
+                    <div t-if="company.vat" class="als-report__company-vat text-muted">
+                        <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                        <span t-field="company.vat"/>
+                    </div>
+                </div>
+                <div class="col-5 text-end als-report__doc-meta">
+                    <!-- The document body provides its own title; this slot stays -->
+                    <!-- empty so we don't double-print headlines. -->
+                </div>
+            </div>
+            <div class="als-report__hairline"/>
+        </div>
+
+        <div t-attf-class="article o_report_layout_als als-report o_company_#{company.id}_layout {{ 'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom'] else '' }}"
+             t-att-data-oe-model="o and o._name"
+             t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-call="web.address_layout"/>
+            <h2 t-if="layout_document_title" t-out="layout_document_title" class="als-report__layout-title"/>
+            <t t-out="0"/>
+        </div>
+
+        <div class="footer als-report__footer">
+            <div class="als-report__footer-band">
+                <div class="row gx-4">
+                    <div class="col-4 als-report__footer-col">
+                        <div class="als-report__footer-title">Always Link Solutions</div>
+                        <div class="als-report__footer-body">
+                            <span t-field="company.partner_id"
+                                  t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}'/>
+                        </div>
+                    </div>
+                    <div class="col-4 als-report__footer-col">
+                        <div class="als-report__footer-title">Contact</div>
+                        <div class="als-report__footer-body">
+                            <div t-if="company.website">
+                                <span t-field="company.website"/>
+                            </div>
+                            <div t-if="company.email">
+                                <span t-field="company.email"/>
+                            </div>
+                            <div t-if="company.phone">
+                                <span t-field="company.phone"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 als-report__footer-col">
+                        <div class="als-report__footer-title">Banking</div>
+                        <div class="als-report__footer-body" t-if="company.als_bank_info">
+                            <span t-field="company.als_bank_info" style="white-space: pre-line;"/>
+                        </div>
+                        <div class="als-report__footer-body text-muted" t-if="not company.als_bank_info">
+                            <em>Available on request</em>
+                        </div>
+                    </div>
+                </div>
+                <div class="als-report__footer-meta">
+                    <span class="text-start">
+                        <span t-if="report_type == 'pdf'">
+                            Page <span class="page"/> / <span class="topage"/>
+                        </span>
+                    </span>
+                    <span class="text-end" t-if="company.report_footer">
+                        <span t-field="company.report_footer"/>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

@@ -1,0 +1,398 @@
+// ALS branded report styles.
+// Loaded via web.report_assets_common; rendered through wkhtmltopdf.
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+$als-navy:       #0F1D31;
+$als-navy-dark:  #0A1324;
+$als-navy-light: #1A2D4B;
+$als-cyan:       #1DA7E0;
+$als-cyan-dark:  #1791C4;
+$als-cyan-soft:  #E8F6FC;
+$als-grey:       #6B737B;
+$als-grey-soft:  #F5F7FA;
+$als-grey-line:  #E5E7EB;
+$als-white:      #FFFFFF;
+
+$als-font-stack: "Montserrat", "Inter", "Helvetica Neue", Arial, sans-serif;
+
+// ---- Layout (the .article wrap from external_layout_als) ----
+.als-report {
+    font-family: $als-font-stack;
+    font-size: 10pt;
+    color: $als-navy;
+    line-height: 1.4;
+
+    h1, h2, h3, h4, h5, h6,
+    strong, b {
+        font-family: $als-font-stack;
+        color: $als-navy;
+    }
+
+    .text-muted {
+        color: $als-grey !important;
+    }
+
+    a {
+        color: $als-cyan-dark;
+        text-decoration: none;
+    }
+}
+
+// ---- Header ----
+.als-report__header {
+    font-family: $als-font-stack;
+    color: $als-navy;
+    padding-bottom: 8px;
+
+    .als-report__topbar {
+        height: 4px;
+        background: $als-cyan;
+        margin: -8px -8px 12px -8px;
+    }
+
+    .als-report__brand {
+        .als-report__logo {
+            max-height: 40px;
+            max-width: 200px;
+            margin-bottom: 8px;
+        }
+        .als-report__company-name {
+            font-weight: 700;
+            font-size: 12pt;
+            color: $als-navy;
+            letter-spacing: 0.02em;
+        }
+        .als-report__company-address {
+            font-size: 8.5pt;
+            color: $als-grey;
+            line-height: 1.35;
+            margin-top: 2px;
+
+            > div, p {
+                margin: 0 !important;
+            }
+        }
+        .als-report__company-vat {
+            font-size: 8.5pt;
+            color: $als-grey;
+            margin-top: 4px;
+        }
+    }
+
+    .als-report__hairline {
+        border-bottom: 1px solid $als-grey-line;
+        margin-top: 12px;
+    }
+}
+
+// ---- Standard address_layout + h2 title (used by non-sale reports) ----
+.als-report {
+    .address {
+        font-size: 9.5pt;
+        color: $als-navy;
+        margin: 18px 0 14px 0;
+
+        > div, p {
+            margin: 0 !important;
+        }
+        strong {
+            color: $als-navy;
+            font-weight: 700;
+        }
+    }
+    .als-report__layout-title {
+        font-family: $als-font-stack;
+        font-weight: 700;
+        font-size: 22pt;
+        color: $als-navy;
+        margin: 14px 0 18px 0;
+        padding-bottom: 8px;
+        border-bottom: 2px solid $als-cyan;
+        letter-spacing: 0.01em;
+    }
+}
+
+// ---- Title block (per-document) ----
+.als-report__title-block {
+    margin: 18px 0 20px 0;
+}
+.als-report__title-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    justify-content: space-between;
+}
+.als-report__title-doc {
+    flex: 0 0 auto;
+
+    .als-report__doc-kind {
+        font-family: $als-font-stack;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 9pt;
+        color: $als-grey;
+    }
+    .als-report__doc-number {
+        font-family: $als-font-stack;
+        font-weight: 700;
+        font-size: 24pt;
+        line-height: 1.05;
+        color: $als-navy;
+        margin: 2px 0 4px 0;
+    }
+    .als-report__doc-validity {
+        font-size: 9pt;
+        color: $als-grey;
+    }
+}
+.als-report__title-customer {
+    flex: 1 1 auto;
+    max-width: 50%;
+    background: $als-grey-soft;
+    border-left: 3px solid $als-cyan;
+    padding: 12px 14px;
+
+    .als-report__customer-label {
+        font-family: $als-font-stack;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-size: 8pt;
+        color: $als-grey;
+        margin-bottom: 4px;
+    }
+    .als-report__customer-body {
+        font-size: 10pt;
+        color: $als-navy;
+
+        strong {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        > div, p {
+            margin: 0 !important;
+        }
+    }
+}
+
+// ---- Meta strip (Order date / Salesperson / Validity ...) ----
+.als-report__meta {
+    margin: 0 0 16px 0 !important;
+    padding: 10px 0;
+    border-top: 1px solid $als-grey-line;
+    border-bottom: 1px solid $als-grey-line;
+
+    > .col {
+        font-size: 9pt;
+
+        > strong {
+            display: block;
+            color: $als-grey;
+            font-weight: 600;
+            font-size: 8pt;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 2px;
+        }
+        > div {
+            color: $als-navy;
+            font-weight: 500;
+        }
+    }
+}
+
+// ---- Line table ----
+.als-report__lines {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 16px 0;
+    font-size: 9.5pt;
+
+    thead tr {
+        background: $als-navy !important;
+    }
+    thead th {
+        color: $als-white !important;
+        font-family: $als-font-stack;
+        font-weight: 700;
+        font-size: 8.5pt;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 9px 10px !important;
+        border: none !important;
+    }
+
+    tbody td {
+        padding: 8px 10px !important;
+        border-bottom: 1px solid $als-grey-line !important;
+        vertical-align: top;
+    }
+
+    tbody tr.o_line_section td,
+    tbody tr.o_line_subsection td {
+        background: $als-cyan-soft;
+        border-left: 3px solid $als-cyan;
+        font-weight: 600;
+        color: $als-navy;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-size: 9pt;
+    }
+    tbody tr.o_line_subsection td {
+        background: lighten($als-cyan-soft, 2%);
+        text-transform: none;
+        letter-spacing: 0;
+        font-size: 9pt;
+    }
+    tbody tr.o_line_note td {
+        font-style: italic;
+        color: $als-grey;
+        background: $als-grey-soft;
+    }
+
+    .o_price_total {
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    // The total table block (Odoo wraps totals in tfoot/total tables)
+    tfoot, tr.o_total {
+        td {
+            border-top: 1px solid $als-grey-line !important;
+            font-weight: 600;
+        }
+    }
+}
+
+// Odoo's separate totals table sits next to the lines table.
+.o_total_table, .o_table_total {
+    .total {
+        background: $als-cyan-soft;
+        border-left: 4px solid $als-cyan;
+    }
+    td {
+        font-family: $als-font-stack;
+    }
+    .o_subtotal, td:has(strong) {
+        color: $als-navy;
+    }
+}
+
+// Bootstrap-injected total row in the line table (Odoo class)
+.o_has_total_table .o_total td {
+    background: $als-cyan-soft !important;
+    border-top: 2px solid $als-cyan !important;
+    color: $als-navy !important;
+    font-weight: 700 !important;
+    font-size: 10.5pt !important;
+}
+
+// ---- Signature block ----
+.als-report__signature {
+    display: flex;
+    gap: 32px;
+    margin: 28px 0 18px 0;
+
+    .als-report__signature-col {
+        flex: 1 1 0;
+    }
+    .als-report__signature-label {
+        font-family: $als-font-stack;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 8pt;
+        color: $als-grey;
+        margin-bottom: 36px;
+    }
+    .als-report__signature-line {
+        border-bottom: 1px solid $als-navy;
+        margin-bottom: 6px;
+    }
+    .als-report__signature-name {
+        font-weight: 700;
+        font-size: 9.5pt;
+        color: $als-navy;
+    }
+    .als-report__signature-title {
+        font-size: 8.5pt;
+        color: $als-grey;
+    }
+}
+
+// ---- Terms & conditions block ----
+.als-report__terms {
+    background: $als-grey-soft;
+    border-left: 3px solid $als-grey-line;
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-size: 8.5pt;
+    color: $als-grey;
+    line-height: 1.45;
+    page-break-inside: avoid;
+
+    .als-report__terms-title {
+        font-family: $als-font-stack;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 8pt;
+        color: $als-navy;
+        margin-bottom: 4px;
+    }
+    .als-report__terms-body {
+        p { margin: 0 0 4px 0 !important; }
+    }
+}
+
+// ---- Footer ----
+.als-report__footer {
+    font-family: $als-font-stack;
+    font-size: 8pt;
+    color: $als-white;
+
+    .als-report__footer-band {
+        background: $als-navy;
+        color: $als-white;
+        margin: 0 -8px;
+        padding: 12px 16px 8px 16px;
+    }
+
+    .als-report__footer-col {
+        color: $als-white;
+        line-height: 1.4;
+    }
+    .als-report__footer-title {
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-size: 7.5pt;
+        color: $als-cyan;
+        margin-bottom: 4px;
+    }
+    .als-report__footer-body {
+        font-size: 8pt;
+        color: rgba($als-white, 0.85);
+
+        > div, p {
+            margin: 0 !important;
+            color: rgba($als-white, 0.85);
+        }
+    }
+
+    .als-report__footer-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 8px;
+        padding-top: 6px;
+        border-top: 1px solid rgba($als-white, 0.15);
+        font-size: 7.5pt;
+        color: rgba($als-white, 0.7);
+
+        p { margin: 0 !important; color: inherit; }
+    }
+}
